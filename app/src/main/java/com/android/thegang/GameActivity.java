@@ -62,6 +62,7 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
+        gamePanel.onSingleTapUp(motionEvent);
         return false;
     }
 

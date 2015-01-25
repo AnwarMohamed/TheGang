@@ -34,6 +34,8 @@ public abstract class Block {
     protected boolean clockwise;
     protected Paint paint = new Paint();
 
+    public final static int BLOCK_STATE_IDLE = 0;
+
     public int getXSpeed() {
         return xSpeed;
     }
@@ -63,6 +65,8 @@ public abstract class Block {
         this.y = y;
         this.bitmap = bitmap;
         this.clockwise = clockwise;
+
+        setState(BLOCK_STATE_IDLE);
     }
 
     public boolean isClockwise() {
@@ -107,5 +111,16 @@ public abstract class Block {
 
     public int getHeight() {
         return bitmap.getWidth();
+    }
+
+    protected int state, stateIndex;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        stateIndex = 0;
     }
 }

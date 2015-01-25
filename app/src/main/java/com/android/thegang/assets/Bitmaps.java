@@ -10,9 +10,12 @@ public class Bitmaps {
     public static Bitmap[] gangster0_idle = new Bitmap[10];
     public static Bitmap[] gangster0_run = new Bitmap[10];
     public static Bitmap[] gangster0_jump = new Bitmap[10];
-    public static Bitmap[] rocks = new Bitmap[2];
+    public static Bitmap[] gangster0_attack = new Bitmap[10];
+    public static Bitmap[] rocks = new Bitmap[4];
     public static Bitmap[] clouds = new Bitmap[1];
     public static Bitmap grass;
+    public static Bitmap[] misc = new Bitmap[4];
+    public static Bitmap[] coins = new Bitmap[10];
 
     public static void loadBitmapStore(Context context) {
         gangster0_idle[0] = createScaledBitmap(0.3f, R.drawable.gang0_idle_0, gangster0_idle[0], context);
@@ -48,12 +51,40 @@ public class Bitmaps {
         gangster0_jump[8] = createScaledBitmap(0.3f, R.drawable.gang0_jump_8, gangster0_jump[8], context);
         gangster0_jump[9] = createScaledBitmap(0.3f, R.drawable.gang0_jump_9, gangster0_jump[9], context);
 
-        rocks[0] = createScaledBitmap(0.3f, R.drawable.rocks_0, rocks[0], context);
-        rocks[1] = createScaledBitmap(0.3f, R.drawable.rocks_1, rocks[1], context);
+        gangster0_attack[0] = createScaledBitmap(0.3f, R.drawable.gang0_attack_0, gangster0_attack[0], context);
+        gangster0_attack[1] = createScaledBitmap(0.3f, R.drawable.gang0_attack_1, gangster0_attack[1], context);
+        gangster0_attack[2] = createScaledBitmap(0.3f, R.drawable.gang0_attack_2, gangster0_attack[2], context);
+        gangster0_attack[3] = createScaledBitmap(0.3f, R.drawable.gang0_attack_3, gangster0_attack[3], context);
+        gangster0_attack[4] = createScaledBitmap(0.3f, R.drawable.gang0_attack_4, gangster0_attack[4], context);
+        gangster0_attack[5] = createScaledBitmap(0.3f, R.drawable.gang0_attack_5, gangster0_attack[5], context);
+        gangster0_attack[6] = createScaledBitmap(0.3f, R.drawable.gang0_attack_6, gangster0_attack[6], context);
+        gangster0_attack[7] = createScaledBitmap(0.3f, R.drawable.gang0_attack_7, gangster0_attack[7], context);
+        gangster0_attack[8] = createScaledBitmap(0.3f, R.drawable.gang0_attack_8, gangster0_attack[8], context);
+        gangster0_attack[9] = createScaledBitmap(0.3f, R.drawable.gang0_attack_9, gangster0_attack[9], context);
+
+        rocks[0] = createScaledBitmap(0.2f, R.drawable.rocks_0, rocks[0], context);
+        rocks[1] = createScaledBitmap(0.1f, R.drawable.rocks_1, rocks[1], context);
+        rocks[2] = createScaledBitmap(0.8f, R.drawable.rocks_2, rocks[2], context);
+        rocks[3] = createScaledBitmap(1f, R.drawable.rocks_3, rocks[3], context);
+
+        misc[0] = createScaledBitmap(0.3f, R.drawable.grass_0, misc[0], context);
+        misc[1] = createScaledBitmap(0.3f, R.drawable.grass_1, misc[1], context);
+        misc[2] = createScaledBitmap(0.3f, R.drawable.grass_2, misc[2], context);
+        misc[3] = createScaledBitmap(0.7f, R.drawable.grass_3, misc[3], context);
+        //misc[4] = createScaledBitmap(0.5f, R.drawable.grass_4, misc[4], context);
 
         clouds[0] = createScaledBitmap(0.3f, R.drawable.clouds_0, clouds[0], context);
 
         grass = createScaledBitmap(1f, R.drawable.grass, grass, context);
+
+
+        Bitmap coins_sheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.coins);
+        int coinHeight = coins_sheet.getHeight();
+        int coinWidth = coins_sheet.getWidth() / 10;
+
+        for (int i = 0; i < 10; i++) {
+            coins[i] = Bitmap.createBitmap(coins_sheet, i * coinWidth, 0, coinWidth, coinHeight);
+        }
     }
 
     private static Bitmap createScaledBitmap(float scale, int resourceId, Bitmap bitmap, Context context) {

@@ -5,11 +5,15 @@ import android.view.SurfaceHolder;
 
 import com.android.thegang.view.GamePanel;
 
+import java.util.Random;
+
 public class GameThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
+
+    public static final Random random = new Random(System.currentTimeMillis());
 
     public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();
