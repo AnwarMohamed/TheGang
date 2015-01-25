@@ -50,17 +50,22 @@ public abstract class Gangster extends Block {
 
     @Override
     public void doDraw(Canvas canvas) {
-        switch(state) {
+        switch (state) {
             case GANGSTER_STATE_IDLE:
-                stateIndex = (stateIndex + 1)% idleBitmaps.length;
+                stateIndex = (stateIndex + 1) % idleBitmaps.length;
                 canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), paint);
                 break;
             case GANGSTER_STATE_JUMP:
-                stateIndex = (stateIndex + 1)% jumpBitmaps.length;
+                stateIndex = (stateIndex + 1) % jumpBitmaps.length;
                 canvas.drawBitmap(jumpBitmaps[stateIndex], getX(), getY(), paint);
+                setY(getY() + (40 * (stateIndex < jumpBitmaps.length/2? -1:1)));
+
+                if (stateIndex == 0) {
+                    setState(GANGSTER_STATE_RUN);
+                }
                 break;
             case GANGSTER_STATE_RUN:
-                stateIndex = (stateIndex + 1)% runBitmaps.length;
+                stateIndex = (stateIndex + 1) % runBitmaps.length;
                 canvas.drawBitmap(runBitmaps[stateIndex], getX(), getY(), paint);
                 break;
         }

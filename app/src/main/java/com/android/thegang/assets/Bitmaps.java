@@ -11,7 +11,7 @@ public class Bitmaps {
     public static Bitmap[] gangster0_run = new Bitmap[10];
     public static Bitmap[] gangster0_jump = new Bitmap[10];
     public static Bitmap[] rocks = new Bitmap[2];
-    public static Bitmap[] clouds = new Bitmap[3];
+    public static Bitmap[] clouds = new Bitmap[1];
     public static Bitmap grass;
 
     public static void loadBitmapStore(Context context) {
@@ -52,7 +52,6 @@ public class Bitmaps {
         rocks[1] = createScaledBitmap(0.3f, R.drawable.rocks_1, rocks[1], context);
 
         clouds[0] = createScaledBitmap(0.3f, R.drawable.clouds_0, clouds[0], context);
-        clouds[1] = createScaledBitmap(0.3f, R.drawable.clouds_1, clouds[1], context);
 
         grass = createScaledBitmap(1f, R.drawable.grass, grass, context);
     }

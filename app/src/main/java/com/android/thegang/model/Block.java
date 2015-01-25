@@ -29,7 +29,7 @@ import android.graphics.Paint;
 
 public abstract class Block {
 
-    private Bitmap bitmap = null;
+    protected Bitmap bitmap = null;
     protected int x = 0, y = 0;
     protected boolean clockwise;
     protected Paint paint = new Paint();

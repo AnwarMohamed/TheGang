@@ -12,6 +12,7 @@ import com.android.thegang.GameActivity;
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.Block;
+import com.android.thegang.model.Cloud;
 import com.android.thegang.model.Floor;
 import com.android.thegang.model.Gangster;
 import com.android.thegang.model.NinjaGangster;
@@ -33,7 +34,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private int groundSpeed = 40;
 
-    private GameActivity gameActivity = null;
+    private GameActivity gameActivity;
 
     public GamePanel(GameActivity activity) {
         super(activity);
@@ -44,8 +45,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         gameActivity = activity;
         gameThread = new GameThread(getHolder(), this);
+
         gangster = new NinjaGangster(
-                screenXCenter * 2/3 - Bitmaps.gangster0_idle[0].getWidth(),
+                screenXCenter * 2 / 3 - Bitmaps.gangster0_idle[0].getWidth(),
                 screenYMax - screenYOffset - Bitmaps.gangster0_idle[0].getHeight(),
                 Bitmaps.gangster0_idle[0]);
 
@@ -68,7 +70,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void addCloudBlocks() {
-
+        for (int i = 0; i < 6; i++) {
+            viewBlocks.add(new Cloud(screenXMax, screenYCenter * 2 / 3));
+        }
     }
 
     private void addRockBlocks() {
@@ -80,7 +84,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void addGangsterBlock() {
-        
+
     }
 
     private void updateWindowState(GameActivity activity) {
@@ -114,21 +118,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
-
-    private Paint bgPaint =  new Paint();
+    private Paint bgPaint = new Paint();
 
     public void doDraw(Canvas canvas) {
         if (canvas != null) {
 
             /* Draw Background */
-            canvas.drawRect(0, 0, canvas.getWidth(),canvas.getHeight(), bgPaint);
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), bgPaint);
 
-            for (Block block: viewBlocks) {
+            for (Block block : viewBlocks) {
                 block.doDraw(canvas);
+            }
+        }
+    }
+
+    public void onFling(MotionEvent start, MotionEvent finish, float xVelocity, float yVelocity) {
+        if (start.getRawY() >= finish.getRawY()) {
+            if (gangster != null) {
+                gangster.setState(Gangster.GANGSTER_STATE_JUMP);
             }
         }
     }
