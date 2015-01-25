@@ -19,6 +19,9 @@ public class Bitmaps {
     public static Bitmap[] coins_orange = new Bitmap[10];
     public static Bitmap[] coins_yellow = new Bitmap[10];
 
+    public static Bitmap[] bird_0 = new Bitmap[14];
+    public static Bitmap[] bird_1 = new Bitmap[14];
+
     public static void loadBitmapStore(Context context) {
         gangster0_idle[0] = createScaledBitmap(0.3f, R.drawable.gang0_idle_0, gangster0_idle[0], context);
         gangster0_idle[1] = createScaledBitmap(0.3f, R.drawable.gang0_idle_1, gangster0_idle[1], context);
@@ -73,7 +76,7 @@ public class Bitmaps {
         gangster0_slide[6] = createScaledBitmap(0.3f, R.drawable.gang0_slide_6, gangster0_slide[6], context);
         gangster0_slide[7] = createScaledBitmap(0.3f, R.drawable.gang0_slide_7, gangster0_slide[7], context);
         gangster0_slide[8] = createScaledBitmap(0.3f, R.drawable.gang0_slide_8, gangster0_slide[8], context);
-        gangster0_slide[9] = createScaledBitmap(0.3f, R.drawable.gang0_slide_9, gangster0_slide[9], context);        
+        gangster0_slide[9] = createScaledBitmap(0.3f, R.drawable.gang0_slide_9, gangster0_slide[9], context);
 
         rocks[0] = createScaledBitmap(0.2f, R.drawable.rocks_0, rocks[0], context);
         rocks[1] = createScaledBitmap(0.1f, R.drawable.rocks_1, rocks[1], context);
@@ -101,6 +104,18 @@ public class Bitmaps {
         for (int i = 0; i < 10; i++) {
             coins_orange[i] = Bitmap.createBitmap(coins_orange_s, i * coinWidth_o, 0, coinWidth_o, coinHeight_o);
             coins_yellow[i] = Bitmap.createBitmap(coins_yellow_s, i * coinWidth_y, 0, coinWidth_y, coinHeight_y);
+        }
+
+        Bitmap bird_0_s = null, bird_1_s = null;
+        bird_0_s = createScaledBitmap(1f, R.drawable.birds_0, bird_0_s, context);
+        bird_1_s = createScaledBitmap(1f, R.drawable.birds_1, bird_1_s, context);
+
+        int coinHeight_0 = bird_0_s.getHeight() / 3, coinWidth_0 = bird_0_s.getWidth() / 5;
+        int coinHeight_1 = bird_1_s.getHeight() / 3, coinWidth_1 = bird_1_s.getWidth() / 5;
+
+        for (int i = 0; i < 14; i++) {
+            bird_0[i] = Bitmap.createBitmap(bird_0_s, (i % 5) * coinWidth_0, (i / 5) * coinHeight_0, coinWidth_0, coinHeight_0);
+            bird_1[i] = Bitmap.createBitmap(bird_1_s, (i % 5) * coinWidth_1, (i / 5) * coinHeight_1, coinWidth_1, coinHeight_1);
         }
     }
 
