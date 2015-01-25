@@ -114,8 +114,13 @@ public class Bitmaps {
         int coinHeight_1 = bird_1_s.getHeight() / 3, coinWidth_1 = bird_1_s.getWidth() / 5;
 
         for (int i = 0; i < 14; i++) {
-            bird_0[i] = Bitmap.createBitmap(bird_0_s, (i % 5) * coinWidth_0, (i / 5) * coinHeight_0, coinWidth_0, coinHeight_0);
-            bird_1[i] = Bitmap.createBitmap(bird_1_s, (i % 5) * coinWidth_1, (i / 5) * coinHeight_1, coinWidth_1, coinHeight_1);
+            bird_0[i] = Bitmap.createBitmap(
+                    bird_0_s, (4 - (i % 5)) * coinWidth_0, (i / 5) * coinHeight_0,
+                    coinWidth_0, coinHeight_0);
+
+            bird_1[i] = Bitmap.createBitmap(
+                    bird_1_s, (i % 5) * coinWidth_1, (i / 5) * coinHeight_1,
+                    coinWidth_1, coinHeight_1);
         }
     }
 

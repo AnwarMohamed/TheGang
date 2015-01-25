@@ -67,9 +67,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         addMiscBlocks();
         addGiftBlocks();
         addGangsterBlock();
-
-        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_RUN);
-        viewBlocks.add(gangsterBlock);
     }
 
     private void addMiscBlocks() {
@@ -110,7 +107,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void addGangsterBlock() {
-
+        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_RUN);
+        viewBlocks.add(gangsterBlock);
     }
 
     private void updateWindowState(GameActivity activity) {
