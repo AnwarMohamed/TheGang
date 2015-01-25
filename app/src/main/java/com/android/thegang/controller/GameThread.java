@@ -25,7 +25,7 @@ public class GameThread extends Thread {
         this.running = running;
     }
 
-    private final static long FPS = 10;
+    private final static long FPS = 25;
 
     @Override
     public void run() {

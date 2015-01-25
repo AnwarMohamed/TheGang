@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import com.android.thegang.GameActivity;
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.controller.GameThread;
+import com.android.thegang.elements.GiftFactory;
 import com.android.thegang.model.Block;
 import com.android.thegang.model.CloudBlock;
 import com.android.thegang.model.DecoratorBlock;
@@ -19,7 +20,6 @@ import com.android.thegang.model.GangsterBlock;
 import com.android.thegang.model.GiftBlock;
 import com.android.thegang.model.NinjaGangsterBlock;
 import com.android.thegang.model.RockBlock;
-import com.android.thegang.model.YellowCoinsBlock;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int screenXOffset = 0;
     private int screenYOffset = 0;
 
-    private int groundSpeed = 30;
+    private int groundSpeed = 15;
 
     private GameActivity gameActivity;
     private boolean pauseGround = false;
@@ -103,7 +103,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private void addGiftBlocks() {
         int oldX = (GameThread.random.nextInt(31) % (screenXMax * 2));
         for (int i = 0; i < 8; i++) {
-            viewBlocks.add(new YellowCoinsBlock(oldX, screenYCenter, screenXMax));
+            viewBlocks.add(GiftFactory.makeGift(
+                    GiftFactory.GIFT_TYPE_RANDOM, oldX, screenYCenter, screenXMax));
             oldX += max(GameThread.random.nextInt(31) % (screenXMax * 2), 120);
         }
     }
@@ -169,6 +170,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 switch (gangsterBlock.getState()) {
                     case GangsterBlock.GANGSTER_STATE_RUN:
                         gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_JUMP);
+                        break;
+                }
+            }
+        }
+        else {
+            if (gangsterBlock != null) {
+                switch (gangsterBlock.getState()) {
+                    case GangsterBlock.GANGSTER_STATE_RUN:
+                        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_SLIDE);
                         break;
                 }
             }

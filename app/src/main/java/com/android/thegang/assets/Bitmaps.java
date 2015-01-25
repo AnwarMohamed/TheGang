@@ -11,11 +11,13 @@ public class Bitmaps {
     public static Bitmap[] gangster0_run = new Bitmap[10];
     public static Bitmap[] gangster0_jump = new Bitmap[10];
     public static Bitmap[] gangster0_attack = new Bitmap[10];
+    public static Bitmap[] gangster0_slide = new Bitmap[10];
     public static Bitmap[] rocks = new Bitmap[4];
     public static Bitmap[] clouds = new Bitmap[1];
     public static Bitmap grass;
     public static Bitmap[] misc = new Bitmap[4];
-    public static Bitmap[] coins = new Bitmap[10];
+    public static Bitmap[] coins_orange = new Bitmap[10];
+    public static Bitmap[] coins_yellow = new Bitmap[10];
 
     public static void loadBitmapStore(Context context) {
         gangster0_idle[0] = createScaledBitmap(0.3f, R.drawable.gang0_idle_0, gangster0_idle[0], context);
@@ -62,6 +64,17 @@ public class Bitmaps {
         gangster0_attack[8] = createScaledBitmap(0.3f, R.drawable.gang0_attack_8, gangster0_attack[8], context);
         gangster0_attack[9] = createScaledBitmap(0.3f, R.drawable.gang0_attack_9, gangster0_attack[9], context);
 
+        gangster0_slide[0] = createScaledBitmap(0.3f, R.drawable.gang0_slide_0, gangster0_slide[0], context);
+        gangster0_slide[1] = createScaledBitmap(0.3f, R.drawable.gang0_slide_1, gangster0_slide[1], context);
+        gangster0_slide[2] = createScaledBitmap(0.3f, R.drawable.gang0_slide_2, gangster0_slide[2], context);
+        gangster0_slide[3] = createScaledBitmap(0.3f, R.drawable.gang0_slide_3, gangster0_slide[3], context);
+        gangster0_slide[4] = createScaledBitmap(0.3f, R.drawable.gang0_slide_4, gangster0_slide[4], context);
+        gangster0_slide[5] = createScaledBitmap(0.3f, R.drawable.gang0_slide_5, gangster0_slide[5], context);
+        gangster0_slide[6] = createScaledBitmap(0.3f, R.drawable.gang0_slide_6, gangster0_slide[6], context);
+        gangster0_slide[7] = createScaledBitmap(0.3f, R.drawable.gang0_slide_7, gangster0_slide[7], context);
+        gangster0_slide[8] = createScaledBitmap(0.3f, R.drawable.gang0_slide_8, gangster0_slide[8], context);
+        gangster0_slide[9] = createScaledBitmap(0.3f, R.drawable.gang0_slide_9, gangster0_slide[9], context);        
+
         rocks[0] = createScaledBitmap(0.2f, R.drawable.rocks_0, rocks[0], context);
         rocks[1] = createScaledBitmap(0.1f, R.drawable.rocks_1, rocks[1], context);
         rocks[2] = createScaledBitmap(0.8f, R.drawable.rocks_2, rocks[2], context);
@@ -78,12 +91,16 @@ public class Bitmaps {
         grass = createScaledBitmap(1f, R.drawable.grass, grass, context);
 
 
-        Bitmap coins_sheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.coins);
-        int coinHeight = coins_sheet.getHeight();
-        int coinWidth = coins_sheet.getWidth() / 10;
+        Bitmap coins_orange_s = BitmapFactory.decodeResource(context.getResources(), R.drawable.coins_0);
+        Bitmap coins_yellow_s = null;
+        coins_yellow_s = createScaledBitmap(0.85f, R.drawable.coins_1, coins_yellow_s, context);
+
+        int coinHeight_y = coins_yellow_s.getHeight(), coinWidth_y = coins_yellow_s.getWidth() / 10;
+        int coinHeight_o = coins_orange_s.getHeight(), coinWidth_o = coins_orange_s.getWidth() / 10;
 
         for (int i = 0; i < 10; i++) {
-            coins[i] = Bitmap.createBitmap(coins_sheet, i * coinWidth, 0, coinWidth, coinHeight);
+            coins_orange[i] = Bitmap.createBitmap(coins_orange_s, i * coinWidth_o, 0, coinWidth_o, coinHeight_o);
+            coins_yellow[i] = Bitmap.createBitmap(coins_yellow_s, i * coinWidth_y, 0, coinWidth_y, coinHeight_y);
         }
     }
 
