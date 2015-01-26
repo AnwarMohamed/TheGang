@@ -50,9 +50,10 @@ public class GameThread extends Thread {
 
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
             try {
-                if (sleepTime > 0)
+                if (sleepTime > 0) {
                     sleep(sleepTime);
-                else
+                    random.setSeed(sleepTime);
+                } else
                     sleep(17);
             } catch (Exception e) {
             }

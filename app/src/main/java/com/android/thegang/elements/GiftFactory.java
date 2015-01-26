@@ -16,12 +16,12 @@ public class GiftFactory {
     public static GiftBlock makeGift(int type, int x, int y, int maxX) {
 
         if (type == GIFT_TYPE_RANDOM) {
-            type = GameThread.random.nextInt(31) % GIFT_TYPE_RANDOM;
+            type = GameThread.random.nextInt(Integer.MAX_VALUE) % GIFT_TYPE_RANDOM;
         }
 
         switch (type) {
             case GIFT_TYPE_COIN:
-                switch (GameThread.random.nextInt(31) % 2) {
+                switch (GameThread.random.nextInt(Integer.MAX_VALUE) % 2) {
                     case GIFT_TYPE_COIN_ORANGE:
                         return new OrangeCoinsBlock(x, y, maxX);
                     case GIFT_TYPE_COIN_YELLOW:

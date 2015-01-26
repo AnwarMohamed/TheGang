@@ -98,31 +98,51 @@ public class Bitmaps {
         Bitmap coins_yellow_s = null;
         coins_yellow_s = createScaledBitmap(0.85f, R.drawable.coins_1, coins_yellow_s, context);
 
-        int coinHeight_y = coins_yellow_s.getHeight(), coinWidth_y = coins_yellow_s.getWidth() / 10;
-        int coinHeight_o = coins_orange_s.getHeight(), coinWidth_o = coins_orange_s.getWidth() / 10;
+        int bitmapHeight_0 = coins_yellow_s.getHeight(), bitmapWidth_0 = coins_yellow_s.getWidth() / 10;
+        int bitmapHeight_1 = coins_orange_s.getHeight(), bitmapWidth_1 = coins_orange_s.getWidth() / 10;
 
         for (int i = 0; i < 10; i++) {
-            coins_orange[i] = Bitmap.createBitmap(coins_orange_s, i * coinWidth_o, 0, coinWidth_o, coinHeight_o);
-            coins_yellow[i] = Bitmap.createBitmap(coins_yellow_s, i * coinWidth_y, 0, coinWidth_y, coinHeight_y);
+            coins_orange[i] = Bitmap.createBitmap(coins_orange_s, i * bitmapWidth_1, 0, bitmapWidth_1, bitmapHeight_1);
+            coins_yellow[i] = Bitmap.createBitmap(coins_yellow_s, i * bitmapWidth_0, 0, bitmapWidth_0, bitmapHeight_0);
         }
 
         Bitmap bird_0_s = null, bird_1_s = null;
-        bird_0_s = createScaledBitmap(1f, R.drawable.birds_0, bird_0_s, context);
-        bird_1_s = createScaledBitmap(1f, R.drawable.birds_1, bird_1_s, context);
+        bird_0_s = createScaledBitmap(0.4f, R.drawable.birds_0, bird_0_s, context);
+        bird_1_s = createScaledBitmap(0.8f, R.drawable.birds_1, bird_1_s, context);
 
-        int coinHeight_0 = bird_0_s.getHeight() / 3, coinWidth_0 = bird_0_s.getWidth() / 5;
-        int coinHeight_1 = bird_1_s.getHeight() / 3, coinWidth_1 = bird_1_s.getWidth() / 5;
+        bitmapHeight_0 = bird_0_s.getHeight() / 3;
+        bitmapWidth_0 = bird_0_s.getWidth() / 5;
+        bitmapHeight_1 = bird_1_s.getHeight() / 3;
+        bitmapWidth_1 = bird_1_s.getWidth() / 5;
 
         for (int i = 0; i < 14; i++) {
             bird_0[i] = Bitmap.createBitmap(
-                    bird_0_s, (4 - (i % 5)) * coinWidth_0, (i / 5) * coinHeight_0,
-                    coinWidth_0, coinHeight_0);
+                    bird_0_s, (4 - (i % 5)) * bitmapWidth_0, (i / 5) * bitmapHeight_0,
+                    bitmapWidth_0, bitmapHeight_0);
 
             bird_1[i] = Bitmap.createBitmap(
-                    bird_1_s, (i % 5) * coinWidth_1, (i / 5) * coinHeight_1,
-                    coinWidth_1, coinHeight_1);
+                    bird_1_s, (4 - (i % 5)) * bitmapWidth_1, (i / 5) * bitmapHeight_1,
+                    bitmapWidth_1, bitmapHeight_1);
+        }
+
+        Bitmap monster = null;
+        monster = createScaledBitmap(1f, R.drawable.monster_0, monster, context);
+
+        bitmapHeight_0 = monster.getHeight() / 4;
+        bitmapWidth_0 = monster.getWidth() / 4;
+
+        for (int i = 4; i < 8; i++) {
+            monster_0[2 * (i - 4)] = Bitmap.createBitmap(
+                    monster, (i % 4) * bitmapWidth_0, (i / 4) * bitmapHeight_0,
+                    bitmapWidth_0, bitmapHeight_0);
+            monster_0[2 * (i - 4) + 1] = Bitmap.createBitmap(
+                    monster, (i % 4) * bitmapWidth_0, (i / 4) * bitmapHeight_0,
+                    bitmapWidth_0, bitmapHeight_0);
         }
     }
+
+    public static Bitmap[] monster_0 = new Bitmap[8];
+
 
     private static Bitmap createScaledBitmap(float scale, int resourceId, Bitmap bitmap, Context context) {
         bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);

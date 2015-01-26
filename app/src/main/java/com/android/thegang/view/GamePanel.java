@@ -11,7 +11,9 @@ import android.view.SurfaceView;
 import com.android.thegang.GameActivity;
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.controller.GameThread;
+import com.android.thegang.elements.DecoratorFactory;
 import com.android.thegang.elements.GiftFactory;
+import com.android.thegang.elements.MonsterFactory;
 import com.android.thegang.model.Block;
 import com.android.thegang.model.CloudBlock;
 import com.android.thegang.model.DecoratorBlock;
@@ -53,26 +55,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         gameActivity = activity;
         gameThread = new GameThread(getHolder(), this);
 
-        gangsterBlock = new NinjaGangsterBlock(
-                screenXCenter * 2 / 3 - Bitmaps.gangster0_idle[0].getWidth(),
-                screenYMax - screenYOffset - Bitmaps.gangster0_idle[0].getHeight(),
-                Bitmaps.gangster0_idle[0]);
-
         bgPaint.setColor(Color.rgb(0xB8, 0xDB, 0xFF));
 
 
         addFloorBlock();
         addCloudBlocks();
         //addRockBlocks();
-        addMiscBlocks();
+        addDecoratorBlocks();
         addGiftBlocks();
+        addMonsters();
         addGangsterBlock();
     }
 
-    private void addMiscBlocks() {
+    private void addMonsters() {
+        int oldX = (GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2));
         for (int i = 0; i < 6; i++) {
-            viewBlocks.add(new DecoratorBlock(
-                    GameThread.random.nextInt(31) % (screenXMax * 2),
+            viewBlocks.add(MonsterFactory.makeMonster(
+                    MonsterFactory.MONSTER_TYPE_RANDOM, screenXMax, screenYMax));
+            viewBlocks.get(viewBlocks.size() - 1).setX(oldX);
+            oldX += max(GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2), 200);
+        }
+
+    }
+
+    private void addDecoratorBlocks() {
+        for (int i = 0; i < 10; i++) {
+            viewBlocks.add(DecoratorFactory.makeDecor(
+                    GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2),
                     screenYMax - screenYOffset + 15, screenXMax));
         }
     }
@@ -92,21 +101,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private void addRockBlocks() {
         for (int i = 0; i < 6; i++) {
             viewBlocks.add(new RockBlock(
-                    GameThread.random.nextInt(31) % (screenXMax * 2),
+                    GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2),
                     screenYMax - screenYOffset, screenXMax));
         }
     }
 
     private void addGiftBlocks() {
-        int oldX = (GameThread.random.nextInt(31) % (screenXMax * 2));
-        for (int i = 0; i < 8; i++) {
+        int oldX = (GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2));
+        for (int i = 0; i < 15; i++) {
             viewBlocks.add(GiftFactory.makeGift(
                     GiftFactory.GIFT_TYPE_RANDOM, oldX, screenYCenter, screenXMax));
-            oldX += max(GameThread.random.nextInt(31) % (screenXMax * 2), 120);
+            oldX += max(GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2), 120);
         }
     }
 
     private void addGangsterBlock() {
+        gangsterBlock = new NinjaGangsterBlock(
+                screenXCenter * 2 / 3 - Bitmaps.gangster0_idle[0].getWidth(),
+                screenYMax - screenYOffset - Bitmaps.gangster0_idle[0].getHeight(),
+                Bitmaps.gangster0_idle[0]);
+
         gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_RUN);
         viewBlocks.add(gangsterBlock);
     }
@@ -171,8 +185,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                         break;
                 }
             }
-        }
-        else {
+        } else {
             if (gangsterBlock != null) {
                 switch (gangsterBlock.getState()) {
                     case GangsterBlock.GANGSTER_STATE_RUN:

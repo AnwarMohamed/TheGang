@@ -68,7 +68,7 @@ public abstract class GiftBlock extends Block {
         }
 
         if (getX() < 0 && getWidth() <= abs(getX())) {
-            setX(maxX + GameThread.random.nextInt(31) % 1000);
+            setX(maxX + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
         }
     }
 }

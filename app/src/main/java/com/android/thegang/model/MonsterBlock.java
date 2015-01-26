@@ -24,10 +24,49 @@
 package com.android.thegang.model;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
-public abstract class MonsterBlock extends Block {
+import com.android.thegang.controller.GameThread;
 
-    public MonsterBlock(int x, int y, Bitmap bitmap) {
-        super(x, y, bitmap);
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+
+public class MonsterBlock extends Block {
+
+    private int maxX, maxY;
+
+    public void setMaxXY(int x, int y) {
+        maxX = x;
+        maxY = y;
+    }
+
+    public Bitmap[] getIdleBitmaps() {
+        return idleBitmaps;
+    }
+
+    public void setIdleBitmaps(Bitmap[] idleBitmaps) {
+        this.idleBitmaps = idleBitmaps;
+    }
+
+    private Bitmap[] idleBitmaps;
+
+    public MonsterBlock(int x, int y, Bitmap[] bitmaps, boolean clockwise) {
+        super(x, y, bitmaps[0], clockwise);
+        idleBitmaps = bitmaps;
+    }
+
+    @Override
+    public void doDraw(Canvas canvas) {
+        if (getX() != maxX) {
+            stepX();
+        }
+
+        stateIndex = (stateIndex + 1) % idleBitmaps.length;
+        canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), paint);
+
+        if (getX() < 0 && getWidth() <= abs(getX())) {
+            setX(maxX + 200 + (GameThread.random.nextInt(Integer.MAX_VALUE) % 500));
+            setY(max(GameThread.random.nextInt(Integer.MAX_VALUE) % (maxY), 100));
+        }
     }
 }

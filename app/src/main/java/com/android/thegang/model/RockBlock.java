@@ -22,10 +22,10 @@ public class RockBlock extends Block {
         super.doDraw(canvas);
 
         if (getX() < 0 && getWidth() <= abs(getX())) {
-            setX(maxX + GameThread.random.nextInt(31) % 1000);
+            setX(maxX + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
 
             setY(getY() + bitmap.getHeight());
-            bitmap = Bitmaps.rocks[GameThread.random.nextInt(31) % Bitmaps.rocks.length];
+            bitmap = Bitmaps.rocks[GameThread.random.nextInt(Integer.MAX_VALUE) % Bitmaps.rocks.length];
             setY(getY() - bitmap.getHeight());
         }
     }
