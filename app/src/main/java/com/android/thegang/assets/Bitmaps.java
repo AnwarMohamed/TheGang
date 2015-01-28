@@ -126,7 +126,7 @@ public class Bitmaps {
         }
 
         Bitmap monster = null;
-        monster = createScaledBitmap(1f, R.drawable.monster_0, monster, context);
+        monster = createScaledBitmap(1.5f, R.drawable.monster_0, monster, context);
 
         bitmapHeight_0 = monster.getHeight() / 4;
         bitmapWidth_0 = monster.getWidth() / 4;

@@ -23,16 +23,13 @@
 
 package com.android.thegang.model;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 public abstract class Block {
 
-    protected Bitmap bitmap = null;
     protected int x = 0, y = 0;
+    protected int width = 0, height = 0;
     protected boolean clockwise;
-    protected Paint paint = new Paint();
 
     public final static int BLOCK_STATE_IDLE = 0;
 
@@ -56,14 +53,13 @@ public abstract class Block {
 
     private int ySpeed = 0;
 
-    public Block(int x, int y, Bitmap bitmap) {
-        this(x, y, bitmap, true);
+    public Block(int x, int y) {
+        this(x, y, true);
     }
 
-    public Block(int x, int y, Bitmap bitmap, boolean clockwise) {
+    public Block(int x, int y, boolean clockwise) {
         this.x = x;
         this.y = y;
-        this.bitmap = bitmap;
         this.clockwise = clockwise;
 
         setState(BLOCK_STATE_IDLE);
@@ -101,16 +97,14 @@ public abstract class Block {
         setY(y + (ySpeed * (clockwise ? 1 : -1)));
     }
 
-    public void doDraw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, x, y, null);
-    }
+    public abstract void doDraw(Canvas canvas);
 
     public int getWidth() {
-        return bitmap.getWidth();
+        return width;
     }
 
     public int getHeight() {
-        return bitmap.getWidth();
+        return height;
     }
 
     protected int state, stateIndex;

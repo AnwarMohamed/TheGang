@@ -31,7 +31,7 @@ import com.android.thegang.controller.GameThread;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-public class MonsterBlock extends Block {
+public class MonsterBlock extends IdleBlock {
 
     private int maxX, maxY;
 
@@ -40,19 +40,8 @@ public class MonsterBlock extends Block {
         maxY = y;
     }
 
-    public Bitmap[] getIdleBitmaps() {
-        return idleBitmaps;
-    }
-
-    public void setIdleBitmaps(Bitmap[] idleBitmaps) {
-        this.idleBitmaps = idleBitmaps;
-    }
-
-    private Bitmap[] idleBitmaps;
-
     public MonsterBlock(int x, int y, Bitmap[] bitmaps, boolean clockwise) {
-        super(x, y, bitmaps[0], clockwise);
-        idleBitmaps = bitmaps;
+        super(x, y, bitmaps, clockwise);
     }
 
     @Override
@@ -62,11 +51,15 @@ public class MonsterBlock extends Block {
         }
 
         stateIndex = (stateIndex + 1) % idleBitmaps.length;
-        canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), paint);
+        canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), null);
 
         if (getX() < 0 && getWidth() <= abs(getX())) {
             setX(maxX + 200 + (GameThread.random.nextInt(Integer.MAX_VALUE) % 500));
             setY(max(GameThread.random.nextInt(Integer.MAX_VALUE) % (maxY), 100));
         }
+    }
+
+    public void fire() {
+
     }
 }
