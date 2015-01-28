@@ -26,6 +26,7 @@ package com.android.thegang.model;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;   //I imported this also
 
 public abstract class Block {
 
@@ -33,6 +34,8 @@ public abstract class Block {
     protected int x = 0, y = 0;
     protected boolean clockwise;
     protected Paint paint = new Paint();
+    protected boolean intersects;//I added these 
+    
 
     public final static int BLOCK_STATE_IDLE = 0;
 
@@ -118,9 +121,25 @@ public abstract class Block {
     public int getState() {
         return state;
     }
+    
+    
 
     public void setState(int state) {
         this.state = state;
         stateIndex = 0;
+    }
+    
+    public Rectangle getBounds()
+    {
+        return new Rectangle(x,y,this.getWidth(),this.getHeight());
+    }
+    
+    public boolean intersects(Block1,Block2)
+    {
+        if((Block1.getBounds()).intersects(Block2.getBounds()))
+        {
+            return true;
+        }
+        else{ return false;}
     }
 }
