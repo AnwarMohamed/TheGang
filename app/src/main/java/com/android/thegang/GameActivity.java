@@ -23,7 +23,11 @@
 
 package com.android.thegang;
 
+
 import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -33,9 +37,15 @@ import android.view.WindowManager;
 
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.view.GamePanel;
+import com.android.thegang.R;
 
 
 public class GameActivity extends Activity implements GestureDetector.OnGestureListener {
+
+ SoundPool sounds;
+    MediaPlayer player;
+    int jumpID,hitID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,12 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
 
         Bitmaps.loadBitmapStore(this);
 
+      sounds = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+       player=MediaPlayer.create(this,R.raw.background);
+        player.start();
+       jumpID = sounds.load(this,R.raw.jump,1);
+        hitID=sounds.load(this,R.raw.hit,1);
+
         gamePanel = new GamePanel(this);
         setContentView(gamePanel);
 
@@ -57,9 +73,11 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     private GestureDetector gDetector;
     private GamePanel gamePanel;
 
+
     @Override
     protected void onPause() {
         super.onPause();
+        player.release();
     }
 
     @Override
@@ -86,11 +104,13 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
         gamePanel.onSingleTapUp(motionEvent);
+     //   sounds.play(hitID,1,1,1,0,1);
         return false;
     }
 
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+      // sounds.play(coinID,1,1,1,0,1);
         return false;
     }
 
@@ -101,8 +121,11 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     @Override
     public boolean onFling(MotionEvent start, MotionEvent finish, float xVelocity, float yVelocity) {
         gamePanel.onFling(start, finish, xVelocity, yVelocity);
-        return true;
+ //    sounds.play(jumpID, 1, 1, 1, 0, 1);
+            return true;
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

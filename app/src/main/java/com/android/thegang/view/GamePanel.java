@@ -27,12 +27,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.SoundPool;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.renderscript.Font;
 
 import com.android.thegang.GameActivity;
+import com.android.thegang.R;
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.controller.GameThread;
 import com.android.thegang.elements.DecoratorFactory;
@@ -81,6 +84,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Queue<Block> removeQueue = new ArrayDeque<Block>();
     private Queue<Block> addQueue = new ArrayDeque<Block>();
 
+    public boolean coinCatched=false;
+
     public GamePanel(GameActivity activity) {
         super(activity);
 
@@ -102,6 +107,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         coinPaint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
         coinPaint.setTextSize(45);
+
+
     }
 
     private void addMonsters() {
@@ -212,6 +219,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 if (block instanceof GiftBlock) {
                     if (gangsterBlock.intersects(block)) {
                         coinsScore += block.catchMe();
+
+
+                        coinCatched=true;
+
+
                     }
                 } else if (block instanceof MonsterBlock) {
                     MonsterBlock monsterBlock = (MonsterBlock) block;
@@ -272,6 +284,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawBitmap(Bitmaps.info_coin, 10, 20, null);
             canvas.drawText("x" + coinsScore, 75, 65, coinPaint);
 
+
             if (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_DIED) {
                 gameOver = true;
                 pauseGround = true;
@@ -322,6 +335,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
     }
+
+
+
 
     public void onSingleTapUp(MotionEvent motionEvent) {
         if (gameOver) {
