@@ -34,5 +34,6 @@ public class NinjaGangsterBlock extends GangsterBlock {
         setJumpBitmaps(Bitmaps.gangster0_jump);
         setAttackBitmaps(Bitmaps.gangster0_attack);
         setSlideBitmaps(Bitmaps.gangster0_slide);
+        setDyingBitmaps(Bitmaps.gangster0_dying);
     }
 }

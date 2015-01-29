@@ -33,7 +33,11 @@ import com.android.thegang.model.SpriteBlock;
 public abstract class GangsterBlock extends SpriteBlock {
 
     public GangsterBlock(int x, int y, Bitmap[] bitmaps) {
-        super(x, y, bitmaps, true);
+        this(x, y, bitmaps, false);
+    }
+
+    public GangsterBlock(int x, int y, Bitmap[] bitmaps, boolean clockwise) {
+        super(x, y, bitmaps, clockwise);
         originalX = x;
         originalY = y;
     }
@@ -41,6 +45,16 @@ public abstract class GangsterBlock extends SpriteBlock {
     private Bitmap[] runBitmaps = null;
     private Bitmap[] jumpBitmaps = null;
     private Bitmap[] attackBitmaps = null;
+
+    public Bitmap[] getDyingBitmaps() {
+        return dyingBitmaps;
+    }
+
+    public void setDyingBitmaps(Bitmap[] dyingBitmaps) {
+        this.dyingBitmaps = dyingBitmaps;
+    }
+
+    private Bitmap[] dyingBitmaps = null;
 
     public Bitmap[] getSlideBitmaps() {
         return slideBitmaps;
@@ -68,6 +82,7 @@ public abstract class GangsterBlock extends SpriteBlock {
     public final static int GANGSTER_STATE_ATTACK = 3;
     public final static int GANGSTER_STATE_SLIDE = 4;
     public final static int GANGSTER_STATE_DYING = 5;
+    public static final int GANGSTER_STATE_DIED = 6;
 
     public Bitmap[] getRunBitmaps() {
         return runBitmaps;
@@ -140,6 +155,16 @@ public abstract class GangsterBlock extends SpriteBlock {
 
                 if (stateIndex == 0) {
                     setState(GANGSTER_STATE_RUN);
+                }
+                break;
+            case GANGSTER_STATE_DYING:
+                canvas.drawBitmap(dyingBitmaps[stateIndex++ / 5], getX(), getY(), null);
+
+                setWidth(dyingBitmaps[(stateIndex - 1) / 5].getWidth());
+                setHeight(dyingBitmaps[(stateIndex - 1) / 5].getHeight());
+
+                if (stateIndex == 49) {
+                    setState(GANGSTER_STATE_DIED);
                 }
                 break;
         }

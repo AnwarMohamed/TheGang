@@ -35,6 +35,12 @@ public class Bitmaps {
     public static Bitmap[] gangster0_jump = new Bitmap[10];
     public static Bitmap[] gangster0_attack = new Bitmap[10];
     public static Bitmap[] gangster0_slide = new Bitmap[10];
+    public static Bitmap[] gangster0_dying = new Bitmap[10];
+
+    public static Bitmap[] gangster1_dying = new Bitmap[10];
+    public static Bitmap[] gangster1_attack = new Bitmap[10];
+    public static Bitmap[] gangster1_idle = new Bitmap[10];
+    
     public static Bitmap[] rocks = new Bitmap[4];
     public static Bitmap[] clouds = new Bitmap[1];
     public static Bitmap grass;
@@ -103,6 +109,52 @@ public class Bitmaps {
         gangster0_slide[7] = createScaledBitmap(0.3f, R.drawable.gang0_slide_7, gangster0_slide[7], context);
         gangster0_slide[8] = createScaledBitmap(0.3f, R.drawable.gang0_slide_8, gangster0_slide[8], context);
         gangster0_slide[9] = createScaledBitmap(0.3f, R.drawable.gang0_slide_9, gangster0_slide[9], context);
+
+        gangster0_dying[0] = createScaledBitmap(0.3f, R.drawable.gang0_dead_0, gangster0_dying[0], context);
+        gangster0_dying[1] = createScaledBitmap(0.3f, R.drawable.gang0_dead_1, gangster0_dying[1], context);
+        gangster0_dying[2] = createScaledBitmap(0.3f, R.drawable.gang0_dead_2, gangster0_dying[2], context);
+        gangster0_dying[3] = createScaledBitmap(0.3f, R.drawable.gang0_dead_3, gangster0_dying[3], context);
+        gangster0_dying[4] = createScaledBitmap(0.3f, R.drawable.gang0_dead_4, gangster0_dying[4], context);
+        gangster0_dying[5] = createScaledBitmap(0.3f, R.drawable.gang0_dead_5, gangster0_dying[5], context);
+        gangster0_dying[6] = createScaledBitmap(0.3f, R.drawable.gang0_dead_6, gangster0_dying[6], context);
+        gangster0_dying[7] = createScaledBitmap(0.3f, R.drawable.gang0_dead_7, gangster0_dying[7], context);
+        gangster0_dying[8] = createScaledBitmap(0.3f, R.drawable.gang0_dead_8, gangster0_dying[8], context);
+        gangster0_dying[9] = createScaledBitmap(0.3f, R.drawable.gang0_dead_9, gangster0_dying[9], context);
+
+               
+        gangster1_idle[0] = createScaledBitmap(0.3f, R.drawable.gang1_idle_0, gangster1_idle[0], context);
+        gangster1_idle[1] = createScaledBitmap(0.3f, R.drawable.gang1_idle_1, gangster1_idle[1], context);
+        gangster1_idle[2] = createScaledBitmap(0.3f, R.drawable.gang1_idle_2, gangster1_idle[2], context);
+        gangster1_idle[3] = createScaledBitmap(0.3f, R.drawable.gang1_idle_3, gangster1_idle[3], context);
+        gangster1_idle[4] = createScaledBitmap(0.3f, R.drawable.gang1_idle_4, gangster1_idle[4], context);
+        gangster1_idle[5] = createScaledBitmap(0.3f, R.drawable.gang1_idle_5, gangster1_idle[5], context);
+        gangster1_idle[6] = createScaledBitmap(0.3f, R.drawable.gang1_idle_6, gangster1_idle[6], context);
+        gangster1_idle[7] = createScaledBitmap(0.3f, R.drawable.gang1_idle_7, gangster1_idle[7], context);
+        gangster1_idle[8] = createScaledBitmap(0.3f, R.drawable.gang1_idle_8, gangster1_idle[8], context);
+        gangster1_idle[9] = createScaledBitmap(0.3f, R.drawable.gang1_idle_9, gangster1_idle[9], context);
+
+        gangster1_dying[0] = createScaledBitmap(0.3f, R.drawable.gang1_dead_0, gangster1_dying[0], context);
+        gangster1_dying[1] = createScaledBitmap(0.3f, R.drawable.gang1_dead_1, gangster1_dying[1], context);
+        gangster1_dying[2] = createScaledBitmap(0.3f, R.drawable.gang1_dead_2, gangster1_dying[2], context);
+        gangster1_dying[3] = createScaledBitmap(0.3f, R.drawable.gang1_dead_3, gangster1_dying[3], context);
+        gangster1_dying[4] = createScaledBitmap(0.3f, R.drawable.gang1_dead_4, gangster1_dying[4], context);
+        gangster1_dying[5] = createScaledBitmap(0.3f, R.drawable.gang1_dead_5, gangster1_dying[5], context);
+        gangster1_dying[6] = createScaledBitmap(0.3f, R.drawable.gang1_dead_6, gangster1_dying[6], context);
+        gangster1_dying[7] = createScaledBitmap(0.3f, R.drawable.gang1_dead_7, gangster1_dying[7], context);
+        gangster1_dying[8] = createScaledBitmap(0.3f, R.drawable.gang1_dead_8, gangster1_dying[8], context);
+        gangster1_dying[9] = createScaledBitmap(0.3f, R.drawable.gang1_dead_9, gangster1_dying[9], context);
+
+        gangster1_attack[0] = createScaledBitmap(0.3f, R.drawable.gang1_attack_0, gangster1_attack[0], context);
+        gangster1_attack[1] = createScaledBitmap(0.3f, R.drawable.gang1_attack_1, gangster1_attack[1], context);
+        gangster1_attack[2] = createScaledBitmap(0.3f, R.drawable.gang1_attack_2, gangster1_attack[2], context);
+        gangster1_attack[3] = createScaledBitmap(0.3f, R.drawable.gang1_attack_3, gangster1_attack[3], context);
+        gangster1_attack[4] = createScaledBitmap(0.3f, R.drawable.gang1_attack_4, gangster1_attack[4], context);
+        gangster1_attack[5] = createScaledBitmap(0.3f, R.drawable.gang1_attack_5, gangster1_attack[5], context);
+        gangster1_attack[6] = createScaledBitmap(0.3f, R.drawable.gang1_attack_6, gangster1_attack[6], context);
+        gangster1_attack[7] = createScaledBitmap(0.3f, R.drawable.gang1_attack_7, gangster1_attack[7], context);
+        gangster1_attack[8] = createScaledBitmap(0.3f, R.drawable.gang1_attack_8, gangster1_attack[8], context);
+        gangster1_attack[9] = createScaledBitmap(0.3f, R.drawable.gang1_attack_9, gangster1_attack[9], context);
+
 
         rocks[0] = createScaledBitmap(0.2f, R.drawable.rocks_0, rocks[0], context);
         rocks[1] = createScaledBitmap(0.1f, R.drawable.rocks_1, rocks[1], context);

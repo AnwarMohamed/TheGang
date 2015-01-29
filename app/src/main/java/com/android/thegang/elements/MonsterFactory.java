@@ -33,8 +33,8 @@ public class MonsterFactory {
 
     public final static int MONSTER_TYPE_BIRD_0 = 0;
     public final static int MONSTER_TYPE_BIRD_1 = 1;
-    public final static int MONSTER_TYPE_DRAGON = 2;
     public final static int MONSTER_TYPE_RANDOM = 2;
+    public final static int MONSTER_TYPE_GIRL = 3;
 
     public static MonsterBlock makeMonster(int type, int maxX, int maxY) {
 
@@ -53,13 +53,11 @@ public class MonsterFactory {
                         false);
                 monsterBlock.setFireCount(1);
                 break;
-            /*
-            case MONSTER_TYPE_DRAGON:
+            case MONSTER_TYPE_GIRL:
                 monsterBlock = new MonsterBlock(
-                        getRandom(maxX * 2), getRandom(maxY / 2),
-                        Bitmaps.monster_0, false);
+                        maxX - 100 , maxY - 50,
+                        Bitmaps.gangster1_idle, false);
                 break;
-                */
         }
 
         monsterBlock.setMaxXY(maxX, maxY);

@@ -72,6 +72,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameActivity gameActivity;
     private boolean pauseGround = false;
+    private boolean gameOver = false;
+    private boolean monsterMode = false;
 
     private int coinsScore = 0;
     private int lifeScore = 5;
@@ -114,7 +116,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void addDecoratorBlocks() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             viewBlocks.add(DecoratorFactory.makeDecor(
                     getRandom(screenXMax * 2),
                     screenYMax - screenYOffset + 15, screenXMax));
@@ -181,7 +183,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    private void gameOver(Canvas canvas) {
+
+        gamePaint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+        gamePaint.setTextSize(150);
+
+        int xPos = screenXCenter - 400;
+        int yPos = (int) (screenYCenter - ((gamePaint.descent() + gamePaint.ascent()) / 2));
+
+        canvas.drawText("GAME OVER", xPos, yPos, gamePaint);
+    }
+
     private Paint bgPaint = new Paint();
+    private Paint gamePaint = new Paint();
 
     private int intersectDelay = 0;
 
@@ -258,10 +272,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawBitmap(Bitmaps.info_coin, 10, 20, null);
             canvas.drawText("x" + coinsScore, 75, 65, coinPaint);
 
-            gangsterBlock.doDraw(canvas);
-            pauseGround = (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK);
-        }
+            if (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_DIED) {
+                gameOver = true;
+                pauseGround = true;
+            }
 
+            if (gameOver) {
+                gameOver(canvas);
+            } else {
+                gangsterBlock.doDraw(canvas);
+                pauseGround = gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK ||
+                        gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_DYING;
+            }
+
+            if ((coinsScore + 1)% 5 == 0) {
+                MonsterBlock girlMonsterBlock = MonsterFactory.makeMonster(
+                        MonsterFactory.MONSTER_TYPE_GIRL, screenXMax, screenYMax);
+                girlMonsterBlock.setXSpeed(0);
+                girlMonsterBlock.setYSpeed(0);
+
+                viewBlocks.add(girlMonsterBlock);
+
+                pauseGround = true;
+                monsterMode = true;
+
+                gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_IDLE);
+            }
+        }
     }
 
     private Paint coinPaint = new Paint();
@@ -287,11 +324,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void onSingleTapUp(MotionEvent motionEvent) {
-        if (gangsterBlock != null) {
-            switch (gangsterBlock.getState()) {
-                case GangsterBlock.GANGSTER_STATE_RUN:
-                    gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_ATTACK);
-                    break;
+        if (gameOver) {
+            gameActivity.finish();
+        } else {
+            if (gangsterBlock != null) {
+                switch (gangsterBlock.getState()) {
+                    case GangsterBlock.GANGSTER_STATE_RUN:
+                        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_ATTACK);
+                        break;
+                }
             }
         }
     }
