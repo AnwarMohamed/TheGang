@@ -24,6 +24,7 @@
 package com.android.thegang.elements;
 
 import com.android.thegang.assets.Bitmaps;
+import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.monsters.MonsterBlock;
 
 import static com.android.thegang.controller.GameThread.getRandom;
@@ -55,8 +56,10 @@ public class MonsterFactory {
                 break;
             case MONSTER_TYPE_GIRL:
                 monsterBlock = new MonsterBlock(
-                        maxX - 100 , maxY - 50,
+                        maxX - 150 - Bitmaps.gangster1_idle[0].getWidth() ,
+                        maxY - 50 - Bitmaps.gangster1_idle[0].getHeight(),
                         Bitmaps.gangster1_idle, false);
+                monsterBlock.setFireCount(GameThread.getRandom(10));
                 break;
         }
 

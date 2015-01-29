@@ -27,8 +27,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.android.thegang.assets.Bitmaps;
+import com.android.thegang.elements.BlockPool;
 import com.android.thegang.elements.MonsterFactory;
 import com.android.thegang.model.SpriteBlock;
+import com.android.thegang.view.GamePanel;
 
 import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
@@ -38,10 +40,27 @@ public class MonsterBlock extends SpriteBlock {
 
     private int maxX;
     private int maxY;
+
+    public int getType() {
+        return type;
+    }
+
     private int type;
+
+    public void setFireType(int fireType) {
+        this.fireType = fireType;
+    }
+
+    private int fireType = FireBlock.FIRE_TYPE_DOWN;
 
     public void setType(int type) {
         this.type = type;
+
+        switch (type) {
+            case MonsterFactory.MONSTER_TYPE_BIRD_0:
+            case MonsterFactory.MONSTER_TYPE_BIRD_1:
+                break;
+        }
     }
 
     public void setMaxXY(int x, int y) {
@@ -80,6 +99,9 @@ public class MonsterBlock extends SpriteBlock {
 
         if (getX() < 0 && getWidth() + 100 < abs(getX())) {
             getCaught();
+
+            BlockPool.getInstance().addBlock(this);
+            GamePanel.getInstance().getRemoveViewBlocks().add(this);
         }
     }
 
@@ -90,11 +112,20 @@ public class MonsterBlock extends SpriteBlock {
     }
 
     public FireBlock fire() {
-        FireBlock fireBlock = new FireBlock(getX() + getWidth() / 2, getY() + getHeight() / 2,
-                Bitmaps.eggs[getRandom(Bitmaps.eggs.length)]);
+
+        FireBlock fireBlock = (FireBlock)BlockPool.getInstance().getBlock(BlockPool.BLOCKPOOL_TYPE_FIRE);
+        fireBlock.setX(getX() + getWidth() / 2);
+        fireBlock.setY(getY() + getHeight() / 2);
+        fireBlock.setBitmap(Bitmaps.eggs[getRandom(Bitmaps.eggs.length)]);
+
+        if (type == FireBlock.FIRE_TYPE_LEFT) {
+            fireBlock.setX(getX());
+            fireBlock.setY(getY() + 50);
+        }
+
         fireBlock.setMaxXY(maxX, maxY);
         fireBlock.setSpeed(max(getRandom(10), 5) + 1);
-        fireBlock.setFireType(FireBlock.FIRE_TYPE_DOWN);
+        fireBlock.setFireType(fireType);
 
         fireCount--;
         return fireBlock;

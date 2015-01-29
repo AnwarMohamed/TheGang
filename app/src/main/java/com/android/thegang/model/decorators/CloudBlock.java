@@ -26,7 +26,9 @@ package com.android.thegang.model.decorators;
 import android.graphics.Canvas;
 
 import com.android.thegang.assets.Bitmaps;
+import com.android.thegang.elements.BlockPool;
 import com.android.thegang.model.StaticBlock;
+import com.android.thegang.view.GamePanel;
 
 import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
@@ -58,6 +60,9 @@ public class CloudBlock extends StaticBlock {
             setY(getRandom(maxY));
 
             bitmap = Bitmaps.clouds[getRandom(Bitmaps.clouds.length)];
+
+            BlockPool.getInstance().addBlock(this);
+            GamePanel.getInstance().getRemoveViewBlocks().add(this);
         }
     }
 }

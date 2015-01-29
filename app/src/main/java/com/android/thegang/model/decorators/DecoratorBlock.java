@@ -26,7 +26,9 @@ package com.android.thegang.model.decorators;
 import android.graphics.Canvas;
 
 import com.android.thegang.assets.Bitmaps;
+import com.android.thegang.elements.BlockPool;
 import com.android.thegang.model.StaticBlock;
+import com.android.thegang.view.GamePanel;
 
 import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
@@ -54,6 +56,7 @@ public class DecoratorBlock extends StaticBlock {
         super.doDraw(canvas);
 
         if (getX() < 0 && getWidth() + 100 < abs(getX())) {
+
             setX(maxX + 100 + getRandom(1000));
 
             setY(getY() + bitmap.getHeight());
@@ -62,6 +65,9 @@ public class DecoratorBlock extends StaticBlock {
 
             setWidth(bitmap.getWidth());
             setHeight(bitmap.getHeight());
+
+            BlockPool.getInstance().addBlock(this);
+            GamePanel.getInstance().getRemoveViewBlocks().add(this);
         }
     }
 }

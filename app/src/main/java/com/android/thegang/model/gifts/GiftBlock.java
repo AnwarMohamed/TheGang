@@ -26,7 +26,9 @@ package com.android.thegang.model.gifts;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.android.thegang.elements.BlockPool;
 import com.android.thegang.model.SpriteBlock;
+import com.android.thegang.view.GamePanel;
 
 import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
@@ -64,6 +66,9 @@ public abstract class GiftBlock extends SpriteBlock {
 
         if (getX() < 0 && getWidth() <= abs(getX())) {
             setX(maxX + getRandom(1000));
+
+            BlockPool.getInstance().addBlock(this);
+            GamePanel.getInstance().getRemoveViewBlocks().add(this);
         }
     }
 

@@ -26,7 +26,9 @@ package com.android.thegang.model.monsters;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.android.thegang.elements.BlockPool;
 import com.android.thegang.model.StaticBlock;
+import com.android.thegang.view.GamePanel;
 
 public class FireBlock extends StaticBlock {
 
@@ -79,6 +81,9 @@ public class FireBlock extends StaticBlock {
                 super.doDraw(canvas);
             } else {
                 setState(FIRE_STATE_IDLE);
+
+                BlockPool.getInstance().addBlock(this);
+                GamePanel.getInstance().getRemoveViewBlocks().add(this);
             }
         }
     }

@@ -36,4 +36,14 @@ public class NinjaGangsterBlock extends GangsterBlock {
         setSlideBitmaps(Bitmaps.gangster0_slide);
         setDyingBitmaps(Bitmaps.gangster0_dying);
     }
+
+    private static NinjaGangsterBlock instance = null;
+
+    public static NinjaGangsterBlock getInstance() {
+        if (instance == null) {
+            instance = new NinjaGangsterBlock(100, 0);
+        }
+
+        return instance;
+    }
 }
