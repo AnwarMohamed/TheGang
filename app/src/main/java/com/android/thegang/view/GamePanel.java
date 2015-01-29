@@ -26,10 +26,13 @@ package com.android.thegang.view;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Typeface;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.renderscript.Font;
 
 import com.android.thegang.GameActivity;
 import com.android.thegang.assets.Bitmaps;
@@ -71,6 +74,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private int coinsScore = 0;
     private int lifeScore = 5;
+
+    private Typeface tf;
+    private String coinsSum;
+   
 
     public GamePanel(GameActivity activity) {
         super(activity);
@@ -198,12 +205,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
 
             int oldX = screenXMax - 10;
+            coinsSum="x"+coinsScore;
             for (int i = 0; i < lifeScore; i++) {
                 canvas.drawBitmap(Bitmaps.info_life, oldX - Bitmaps.info_life.getWidth(), 20, null);
                 oldX -= 60;
             }
 
             canvas.drawBitmap(Bitmaps.info_coin, 10, 20, null);
+            Paint bgPaint1 = new Paint();
+            tf= Typeface.create("Monofonto",Typeface.BOLD);
+            bgPaint1.setTypeface(tf);
+            bgPaint1.setTextSize(50);
+            canvas.drawText(coinsSum,100,60,bgPaint1);
+
+
 
             gangsterBlock.doDraw(canvas);
             pauseGround = (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK);
@@ -229,6 +244,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
     }
+
+
+
 
     public void onSingleTapUp(MotionEvent motionEvent) {
         if (gangsterBlock != null) {
