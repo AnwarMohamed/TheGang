@@ -1,8 +1,31 @@
+/*
+ *  Copyright (C) 2015
+ *                      Abdallah Elerian  <abdallah.elerian@gmail.com>
+ *                      Ahmed Samir       <ahmedsamir.93@gmail.com>
+ *                      Anwar Mohamed     <anwarelmakrahy@gmail.com>
+ *                      Moataz Hammouda   <moatazhammouda4@gmail.com>
+ *                      Yasmine Elhabashi <yasmine.elhabashi@gmail.com>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to authors.
+ *
+ */
+
 package com.android.thegang.elements;
 
 import com.android.thegang.assets.Bitmaps;
 import com.android.thegang.controller.GameThread;
-import com.android.thegang.model.MonsterBlock;
+import com.android.thegang.model.monsters.MonsterBlock;
 
 import static java.lang.Math.max;
 
@@ -27,7 +50,7 @@ public class MonsterFactory {
                 monsterBlock = new MonsterBlock(
                         GameThread.random.nextInt(Integer.MAX_VALUE) % (maxX * 2),
                         GameThread.random.nextInt(Integer.MAX_VALUE) % (maxY / 2),
-                        type == MONSTER_TYPE_BIRD_0 ? Bitmaps.bird_0 : Bitmaps.bird_1,
+                        type == MONSTER_TYPE_BIRD_0 ? Bitmaps.monster_0 : Bitmaps.monster_1,
                         false);
                 break;
             case MONSTER_TYPE_DRAGON:

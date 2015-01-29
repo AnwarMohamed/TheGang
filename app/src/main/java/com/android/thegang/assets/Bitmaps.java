@@ -1,3 +1,26 @@
+/*
+ *  Copyright (C) 2015
+ *                      Abdallah Elerian  <abdallah.elerian@gmail.com>
+ *                      Ahmed Samir       <ahmedsamir.93@gmail.com>
+ *                      Anwar Mohamed     <anwarelmakrahy@gmail.com>
+ *                      Moataz Hammouda   <moatazhammouda4@gmail.com>
+ *                      Yasmine Elhabashi <yasmine.elhabashi@gmail.com>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to authors.
+ *
+ */
+
 package com.android.thegang.assets;
 
 import android.content.Context;
@@ -19,8 +42,9 @@ public class Bitmaps {
     public static Bitmap[] coins_orange = new Bitmap[10];
     public static Bitmap[] coins_yellow = new Bitmap[10];
 
-    public static Bitmap[] bird_0 = new Bitmap[14];
-    public static Bitmap[] bird_1 = new Bitmap[14];
+    public static Bitmap[] monster_0 = new Bitmap[14];
+    public static Bitmap[] monster_1 = new Bitmap[14];
+    public static Bitmap info_life, info_coin;
 
     public static void loadBitmapStore(Context context) {
         gangster0_idle[0] = createScaledBitmap(0.3f, R.drawable.gang0_idle_0, gangster0_idle[0], context);
@@ -90,9 +114,7 @@ public class Bitmaps {
         //misc[4] = createScaledBitmap(0.5f, R.drawable.grass_4, misc[4], context);
 
         clouds[0] = createScaledBitmap(0.3f, R.drawable.clouds_0, clouds[0], context);
-
         grass = createScaledBitmap(1f, R.drawable.grass, grass, context);
-
 
         Bitmap coins_orange_s = BitmapFactory.decodeResource(context.getResources(), R.drawable.coins_0);
         Bitmap coins_yellow_s = null;
@@ -106,25 +128,31 @@ public class Bitmaps {
             coins_yellow[i] = Bitmap.createBitmap(coins_yellow_s, i * bitmapWidth_0, 0, bitmapWidth_0, bitmapHeight_0);
         }
 
-        Bitmap bird_0_s = null, bird_1_s = null;
-        bird_0_s = createScaledBitmap(0.4f, R.drawable.birds_0, bird_0_s, context);
-        bird_1_s = createScaledBitmap(0.8f, R.drawable.birds_1, bird_1_s, context);
+        info_life = createScaledBitmap(0.06f, R.drawable.heart, info_life, context);
+        info_coin = Bitmap.createScaledBitmap(coins_yellow[9],
+                (int) (coins_yellow[9].getWidth() * 0.7),
+                (int) (coins_yellow[9].getHeight() * 0.7), false);
 
-        bitmapHeight_0 = bird_0_s.getHeight() / 3;
-        bitmapWidth_0 = bird_0_s.getWidth() / 5;
-        bitmapHeight_1 = bird_1_s.getHeight() / 3;
-        bitmapWidth_1 = bird_1_s.getWidth() / 5;
+        Bitmap monster_0_s = null, monster_1_s = null;
+        monster_0_s = createScaledBitmap(0.4f, R.drawable.birds_0, monster_0_s, context);
+        monster_1_s = createScaledBitmap(0.8f, R.drawable.birds_1, monster_1_s, context);
+
+        bitmapHeight_0 = monster_0_s.getHeight() / 3;
+        bitmapWidth_0 = monster_0_s.getWidth() / 5;
+        bitmapHeight_1 = monster_1_s.getHeight() / 3;
+        bitmapWidth_1 = monster_1_s.getWidth() / 5;
 
         for (int i = 0; i < 14; i++) {
-            bird_0[i] = Bitmap.createBitmap(
-                    bird_0_s, (4 - (i % 5)) * bitmapWidth_0, (i / 5) * bitmapHeight_0,
+            monster_0[i] = Bitmap.createBitmap(
+                    monster_0_s, (4 - (i % 5)) * bitmapWidth_0, (i / 5) * bitmapHeight_0,
                     bitmapWidth_0, bitmapHeight_0);
 
-            bird_1[i] = Bitmap.createBitmap(
-                    bird_1_s, (4 - (i % 5)) * bitmapWidth_1, (i / 5) * bitmapHeight_1,
+            monster_1[i] = Bitmap.createBitmap(
+                    monster_1_s, (4 - (i % 5)) * bitmapWidth_1, (i / 5) * bitmapHeight_1,
                     bitmapWidth_1, bitmapHeight_1);
         }
 
+        /*
         Bitmap monster = null;
         monster = createScaledBitmap(1.5f, R.drawable.monster_0, monster, context);
 
@@ -139,9 +167,10 @@ public class Bitmaps {
                     monster, (i % 4) * bitmapWidth_0, (i / 4) * bitmapHeight_0,
                     bitmapWidth_0, bitmapHeight_0);
         }
+        */
     }
 
-    public static Bitmap[] monster_0 = new Bitmap[8];
+    //public static Bitmap[] monster_0 = new Bitmap[8];
 
 
     private static Bitmap createScaledBitmap(float scale, int resourceId, Bitmap bitmap, Context context) {

@@ -1,3 +1,26 @@
+/*
+ *  Copyright (C) 2015
+ *                      Abdallah Elerian  <abdallah.elerian@gmail.com>
+ *                      Ahmed Samir       <ahmedsamir.93@gmail.com>
+ *                      Anwar Mohamed     <anwarelmakrahy@gmail.com>
+ *                      Moataz Hammouda   <moatazhammouda4@gmail.com>
+ *                      Yasmine Elhabashi <yasmine.elhabashi@gmail.com>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to authors.
+ *
+ */
+
 package com.android.thegang.view;
 
 import android.graphics.Canvas;
@@ -15,13 +38,14 @@ import com.android.thegang.elements.DecoratorFactory;
 import com.android.thegang.elements.GiftFactory;
 import com.android.thegang.elements.MonsterFactory;
 import com.android.thegang.model.Block;
-import com.android.thegang.model.CloudBlock;
-import com.android.thegang.model.DecoratorBlock;
-import com.android.thegang.model.FloorBlock;
-import com.android.thegang.model.GangsterBlock;
-import com.android.thegang.model.GiftBlock;
-import com.android.thegang.model.NinjaGangsterBlock;
-import com.android.thegang.model.RockBlock;
+import com.android.thegang.model.decorators.CloudBlock;
+import com.android.thegang.model.decorators.DecoratorBlock;
+import com.android.thegang.model.decorators.FloorBlock;
+import com.android.thegang.model.gangsters.GangsterBlock;
+import com.android.thegang.model.gangsters.NinjaGangsterBlock;
+import com.android.thegang.model.gifts.GiftBlock;
+import com.android.thegang.model.monsters.FireBlock;
+import com.android.thegang.model.monsters.MonsterBlock;
 
 import java.util.ArrayList;
 
@@ -45,6 +69,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private GameActivity gameActivity;
     private boolean pauseGround = false;
 
+    private int coinsScore = 0;
+    private int lifeScore = 5;
+
     public GamePanel(GameActivity activity) {
         super(activity);
 
@@ -57,10 +84,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         bgPaint.setColor(Color.rgb(0xB8, 0xDB, 0xFF));
 
-
         addFloorBlock();
         addCloudBlocks();
-        //addRockBlocks();
         addDecoratorBlocks();
         addGiftBlocks();
         addMonsters();
@@ -98,14 +123,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private void addRockBlocks() {
-        for (int i = 0; i < 6; i++) {
-            viewBlocks.add(new RockBlock(
-                    GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2),
-                    screenYMax - screenYOffset, screenXMax));
-        }
-    }
-
     private void addGiftBlocks() {
         int oldX = (GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2));
         for (int i = 0; i < 15; i++) {
@@ -118,11 +135,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private void addGangsterBlock() {
         gangsterBlock = new NinjaGangsterBlock(
                 screenXCenter * 2 / 3 - Bitmaps.gangster0_idle[0].getWidth(),
-                screenYMax - screenYOffset - Bitmaps.gangster0_idle[0].getHeight(),
-                Bitmaps.gangster0_idle[0]);
+                screenYMax - screenYOffset - Bitmaps.gangster0_idle[0].getHeight());
 
         gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_RUN);
-        viewBlocks.add(gangsterBlock);
     }
 
     private void updateWindowState(GameActivity activity) {
@@ -163,16 +178,35 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), bgPaint);
 
             for (Block block : viewBlocks) {
-                if (block instanceof FloorBlock || block instanceof RockBlock ||
-                        block instanceof DecoratorBlock || block instanceof GiftBlock) {
+                if (block instanceof FloorBlock || block instanceof DecoratorBlock ||
+                        block instanceof GiftBlock) {
                     block.setXSpeed(pauseGround ? 0 : groundSpeed);
-                } else if (block instanceof GangsterBlock) {
-                    GangsterBlock gangsterBlock = (GangsterBlock) block;
-                    pauseGround = (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK);
+                }
+
+                if (block instanceof GiftBlock || block instanceof MonsterBlock) {
+                    if (gangsterBlock.intersects(block)) {
+
+                        coinsScore += block.catchMe();
+                    }
+                } else if (block instanceof FireBlock) {
+                    if (gangsterBlock.intersects(block)) {
+                        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_DYING);
+                    }
                 }
 
                 block.doDraw(canvas);
             }
+
+            int oldX = screenXMax - 10;
+            for (int i = 0; i < lifeScore; i++) {
+                canvas.drawBitmap(Bitmaps.info_life, oldX - Bitmaps.info_life.getWidth(), 20, null);
+                oldX -= 60;
+            }
+
+            canvas.drawBitmap(Bitmaps.info_coin, 10, 20, null);
+
+            gangsterBlock.doDraw(canvas);
+            pauseGround = (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK);
         }
     }
 

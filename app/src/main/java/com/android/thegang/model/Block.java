@@ -117,4 +117,6 @@ public abstract class Block {
         this.state = state;
         stateIndex = 0;
     }
+
+    public abstract int catchMe();
 }
