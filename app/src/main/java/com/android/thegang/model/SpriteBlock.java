@@ -30,7 +30,13 @@ import android.graphics.Canvas;
 public class SpriteBlock extends Block {
     public SpriteBlock(int x, int y, Bitmap[] bitmaps, boolean clockwise) {
         super(x, y, clockwise);
-        idleBitmaps = bitmaps;
+
+        setIdleBitmaps(bitmaps);
+
+        if (bitmaps != null && bitmaps.length > 0) {
+            setWidth(bitmaps[0].getWidth());
+            setHeight(bitmaps[0].getHeight());
+        }
     }
 
     public Bitmap[] getIdleBitmaps() {

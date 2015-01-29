@@ -36,7 +36,9 @@ public abstract class GiftBlock extends SpriteBlock {
     public GiftBlock(int x, int y, int maxX, Bitmap[] bitmaps) {
         super(x, y, bitmaps, false);
         this.maxX = maxX;
-        this.width = bitmaps[0].getWidth();
+
+        setWidth(bitmaps[0].getWidth());
+        setHeight(bitmaps[0].getHeight());
     }
 
     private int maxX;
@@ -67,6 +69,6 @@ public abstract class GiftBlock extends SpriteBlock {
 
     public int catchMe() {
         setX(maxX + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
-        return width;
+        return getWidth();
     }
 }

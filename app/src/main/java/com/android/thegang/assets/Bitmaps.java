@@ -46,6 +46,8 @@ public class Bitmaps {
     public static Bitmap[] monster_1 = new Bitmap[14];
     public static Bitmap info_life, info_coin;
 
+    public static Bitmap[] eggs = new Bitmap[2];
+
     public static void loadBitmapStore(Context context) {
         gangster0_idle[0] = createScaledBitmap(0.3f, R.drawable.gang0_idle_0, gangster0_idle[0], context);
         gangster0_idle[1] = createScaledBitmap(0.3f, R.drawable.gang0_idle_1, gangster0_idle[1], context);
@@ -152,6 +154,9 @@ public class Bitmaps {
                     bitmapWidth_1, bitmapHeight_1);
         }
 
+        eggs[0] = createScaledBitmap(1f, R.drawable.egg_0, eggs[0], context);
+        eggs[1] = createScaledBitmap(1f, R.drawable.egg_1, eggs[1], context);
+
         /*
         Bitmap monster = null;
         monster = createScaledBitmap(1.5f, R.drawable.monster_0, monster, context);
@@ -171,7 +176,6 @@ public class Bitmaps {
     }
 
     //public static Bitmap[] monster_0 = new Bitmap[8];
-
 
     private static Bitmap createScaledBitmap(float scale, int resourceId, Bitmap bitmap, Context context) {
         bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);

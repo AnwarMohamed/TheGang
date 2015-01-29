@@ -40,7 +40,10 @@ public class DecoratorBlock extends StaticBlock {
 
         setBitmap(Bitmaps.misc[GameThread.random.nextInt(Integer.MAX_VALUE) % Bitmaps.misc.length]);
         setY(getY() - bitmap.getHeight());
-        this.width = bitmap.getWidth();
+
+        setWidth(bitmap.getWidth());
+        setHeight(bitmap.getHeight());
+
         this.maxX = maxX;
     }
 

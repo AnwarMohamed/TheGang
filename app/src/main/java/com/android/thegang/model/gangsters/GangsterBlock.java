@@ -126,13 +126,15 @@ public abstract class GangsterBlock extends SpriteBlock {
                 }
                 break;
         }
+
+        gangsterBlock.set(getX(), getY(), getX() + getWidth(), getY() + getHeight());
     }
 
     private Rect gangsterBlock = new Rect();
     private Rect intersectBlock = new Rect();
 
     public boolean intersects(Block block) {
-        gangsterBlock.set(getX(), getY(), getX() + getWidth(), getY() + getHeight());
+
         intersectBlock.set(block.getX(), block.getY(),
                 block.getX() + block.getWidth(),
                 block.getY() + block.getHeight());

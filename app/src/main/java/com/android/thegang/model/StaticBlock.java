@@ -39,6 +39,11 @@ public class StaticBlock extends Block {
         super(x, y, clockwise);
 
         setBitmap(bitmap);
+
+        if (bitmap != null) {
+            setWidth(bitmap.getWidth());
+            setHeight(bitmap.getHeight());
+        }
     }
 
     @Override

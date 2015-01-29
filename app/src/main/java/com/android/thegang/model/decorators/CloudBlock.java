@@ -46,7 +46,6 @@ public class CloudBlock extends StaticBlock {
         setXSpeed(GameThread.random.nextInt() % 10 + 1);
         this.maxX = maxX;
         this.maxY = maxY;
-        this.width = bitmap.getWidth();
     }
 
     @Override

@@ -27,8 +27,18 @@ import android.graphics.Canvas;
 
 public abstract class Block {
 
-    protected int x = 0, y = 0;
-    protected int width = 0, height = 0;
+    private int x = 0, y = 0;
+    private int width = 0;
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    private int height = 0;
     protected boolean clockwise;
 
     public final static int BLOCK_STATE_IDLE = 0;

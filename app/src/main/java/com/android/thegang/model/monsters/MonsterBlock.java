@@ -43,7 +43,6 @@ public class MonsterBlock extends SpriteBlock {
 
     public MonsterBlock(int x, int y, Bitmap[] bitmaps, boolean clockwise) {
         super(x, y, bitmaps, clockwise);
-        this.width = bitmaps[0].getWidth();
     }
 
     @Override

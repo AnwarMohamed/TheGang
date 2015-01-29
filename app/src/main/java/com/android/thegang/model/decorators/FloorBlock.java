@@ -37,7 +37,6 @@ public class FloorBlock extends StaticBlock {
     public FloorBlock(int maxX, int y) {
         super(0, y, Bitmaps.grass, false);
         this.maxX = maxX;
-        this.width = bitmap.getWidth();
     }
 
     @Override
