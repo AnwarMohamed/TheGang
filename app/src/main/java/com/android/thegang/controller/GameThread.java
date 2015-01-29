@@ -30,13 +30,23 @@ import com.android.thegang.view.GamePanel;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class GameThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
 
-    public static final Random random = new Random(System.currentTimeMillis());
+    private static final Random random = new Random(System.currentTimeMillis());
+
+    public static int getRandom() {
+        return max(0, random.nextInt(Integer.MAX_VALUE));
+    }
+
+    public static int getRandom(int x) {
+        return max(0, random.nextInt(Integer.MAX_VALUE) % x);
+    }
 
     public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();

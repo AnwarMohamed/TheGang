@@ -26,15 +26,23 @@ package com.android.thegang.model.monsters;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.android.thegang.controller.GameThread;
+import com.android.thegang.assets.Bitmaps;
+import com.android.thegang.elements.MonsterFactory;
 import com.android.thegang.model.SpriteBlock;
 
+import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
 public class MonsterBlock extends SpriteBlock {
 
-    private int maxX, maxY;
+    private int maxX;
+    private int maxY;
+    private int type;
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public void setMaxXY(int x, int y) {
         maxX = x;
@@ -45,27 +53,55 @@ public class MonsterBlock extends SpriteBlock {
         super(x, y, bitmaps, clockwise);
     }
 
+    public void getCaught() {
+        setX(maxX + (max(getRandom(500), 100)));
+
+        switch (type) {
+            case MonsterFactory.MONSTER_TYPE_BIRD_0:
+            case MonsterFactory.MONSTER_TYPE_BIRD_1:
+                setY(max(getRandom(maxY / 2), 100));
+                break;
+            default:
+                setY(max(getRandom(maxY), 100));
+                break;
+        }
+
+        fireCount = origFireCount;
+    }
+
     @Override
     public void doDraw(Canvas canvas) {
-        if (getX() != maxX) {
-            stepX();
-        }
+        stepX();
 
-        stateIndex = (stateIndex + 1) % idleBitmaps.length;
-        canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), null);
+        super.doDraw(canvas);
 
-        if (getX() < 0 && getWidth() <= abs(getX())) {
-            setX(maxX + 200 + (GameThread.random.nextInt(Integer.MAX_VALUE) % 500));
-            setY(max(GameThread.random.nextInt(Integer.MAX_VALUE) % (maxY), 100));
+        setWidth(idleBitmaps[stateIndex].getWidth());
+        setHeight(idleBitmaps[stateIndex].getHeight());
+
+        if (getX() < 0 && getWidth() + 100 < abs(getX())) {
+            getCaught();
         }
     }
 
-    public void canFire() {
+    private int fireCount, origFireCount;
 
+    public boolean canFire(int x, int y) {
+        return getX() > x && fireCount > 0;
     }
 
-    public FireBlock fire(int x, int y) {
-        FireBlock fireBlock = new FireBlock(x, y, null);
+    public FireBlock fire() {
+        FireBlock fireBlock = new FireBlock(getX() + getWidth() / 2, getY() + getHeight() / 2,
+                Bitmaps.eggs[getRandom(Bitmaps.eggs.length)]);
+        fireBlock.setMaxXY(maxX, maxY);
+        fireBlock.setSpeed(max(getRandom(10), 5) + 1);
+        fireBlock.setFireType(FireBlock.FIRE_TYPE_DOWN);
+
+        fireCount--;
         return fireBlock;
+    }
+
+    public void setFireCount(int fireCount) {
+        this.fireCount = fireCount;
+        this.origFireCount = fireCount;
     }
 }

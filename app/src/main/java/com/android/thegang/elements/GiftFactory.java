@@ -23,10 +23,11 @@
 
 package com.android.thegang.elements;
 
-import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.gifts.GiftBlock;
 import com.android.thegang.model.gifts.OrangeCoinsBlock;
 import com.android.thegang.model.gifts.YellowCoinsBlock;
+
+import static com.android.thegang.controller.GameThread.getRandom;
 
 public class GiftFactory {
 
@@ -39,12 +40,12 @@ public class GiftFactory {
     public static GiftBlock makeGift(int type, int x, int y, int maxX) {
 
         if (type == GIFT_TYPE_RANDOM) {
-            type = GameThread.random.nextInt(Integer.MAX_VALUE) % GIFT_TYPE_RANDOM;
+            type = getRandom(GIFT_TYPE_RANDOM);
         }
 
         switch (type) {
             case GIFT_TYPE_COIN:
-                switch (GameThread.random.nextInt(Integer.MAX_VALUE) % 2) {
+                switch (getRandom(2)) {
                     case GIFT_TYPE_COIN_ORANGE:
                         return new OrangeCoinsBlock(x, y, maxX);
                     case GIFT_TYPE_COIN_YELLOW:

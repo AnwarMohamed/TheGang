@@ -26,6 +26,7 @@ package com.android.thegang.view;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -47,8 +48,11 @@ import com.android.thegang.model.gifts.GiftBlock;
 import com.android.thegang.model.monsters.FireBlock;
 import com.android.thegang.model.monsters.MonsterBlock;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
+import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.max;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
@@ -72,6 +76,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int coinsScore = 0;
     private int lifeScore = 5;
 
+    private Queue<Block> removeQueue = new ArrayDeque<Block>();
+    private Queue<Block> addQueue = new ArrayDeque<Block>();
+
     public GamePanel(GameActivity activity) {
         super(activity);
 
@@ -90,15 +97,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         addGiftBlocks();
         addMonsters();
         addGangsterBlock();
+
+        coinPaint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+        coinPaint.setTextSize(45);
     }
 
     private void addMonsters() {
-        int oldX = (GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2));
+        int oldX = (getRandom(screenXMax * 2));
         for (int i = 0; i < 6; i++) {
             viewBlocks.add(MonsterFactory.makeMonster(
                     MonsterFactory.MONSTER_TYPE_RANDOM, screenXMax, screenYMax));
             viewBlocks.get(viewBlocks.size() - 1).setX(oldX);
-            oldX += max(GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2), 200);
+            oldX += max(getRandom(screenXMax * 2), 200);
         }
 
     }
@@ -106,7 +116,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private void addDecoratorBlocks() {
         for (int i = 0; i < 10; i++) {
             viewBlocks.add(DecoratorFactory.makeDecor(
-                    GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2),
+                    getRandom(screenXMax * 2),
                     screenYMax - screenYOffset + 15, screenXMax));
         }
     }
@@ -124,11 +134,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void addGiftBlocks() {
-        int oldX = (GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2));
+        int oldX = (getRandom(screenXMax * 2));
         for (int i = 0; i < 15; i++) {
             viewBlocks.add(GiftFactory.makeGift(
                     GiftFactory.GIFT_TYPE_RANDOM, oldX, screenYCenter, screenXMax));
-            oldX += max(GameThread.random.nextInt(Integer.MAX_VALUE) % (screenXMax * 2), 120);
+            oldX += max(getRandom(screenXMax * 2), 120);
         }
     }
 
@@ -173,6 +183,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint bgPaint = new Paint();
 
+    private int intersectDelay = 0;
+
     public void doDraw(Canvas canvas) {
         if (canvas != null) {
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), bgPaint);
@@ -183,18 +195,58 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     block.setXSpeed(pauseGround ? 0 : groundSpeed);
                 }
 
-                if (block instanceof GiftBlock || block instanceof MonsterBlock) {
+                if (block instanceof GiftBlock) {
                     if (gangsterBlock.intersects(block)) {
-
                         coinsScore += block.catchMe();
                     }
-                } else if (block instanceof FireBlock) {
+                } else if (block instanceof MonsterBlock) {
+                    MonsterBlock monsterBlock = (MonsterBlock) block;
                     if (gangsterBlock.intersects(block)) {
-                        gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_DYING);
+                        if (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK) {
+                            monsterBlock.getCaught();
+                        } else {
+                            monsterBlock.getCaught();
+
+                            if (--lifeScore == 0) {
+                                gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_DYING);
+                            }
+                        }
+                    } else {
+
+                        if (getRandom(screenXMax) > block.getX()) {
+                            if (monsterBlock.canFire(gangsterBlock.getX(), gangsterBlock.getY())) {
+                                addQueue.add(monsterBlock.fire());
+                            }
+                        }
+                    }
+                } else if (block instanceof FireBlock) {
+                    FireBlock fireBlock = (FireBlock) block;
+
+                    if (gangsterBlock.intersects(block)) {
+                        if (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK) {
+                            removeQueue.add(block);
+                        } else {
+
+                            removeQueue.add(block);
+
+                            if (--lifeScore == 0) {
+                                gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_DYING);
+                            }
+                        }
+                    } else if (fireBlock.getState() == FireBlock.FIRE_STATE_IDLE) {
+                        removeQueue.add(block);
                     }
                 }
 
                 block.doDraw(canvas);
+            }
+
+            while (!addQueue.isEmpty()) {
+                viewBlocks.add(addQueue.remove());
+            }
+
+            while (!removeQueue.isEmpty()) {
+                viewBlocks.remove(removeQueue.remove());
             }
 
             int oldX = screenXMax - 10;
@@ -204,11 +256,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
 
             canvas.drawBitmap(Bitmaps.info_coin, 10, 20, null);
+            canvas.drawText("x" + coinsScore, 75, 65, coinPaint);
 
             gangsterBlock.doDraw(canvas);
             pauseGround = (gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK);
         }
+
     }
+
+    private Paint coinPaint = new Paint();
 
     public void onFling(MotionEvent start, MotionEvent finish, float xVelocity, float yVelocity) {
         if (start.getRawY() >= finish.getRawY()) {

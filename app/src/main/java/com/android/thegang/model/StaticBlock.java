@@ -37,7 +37,6 @@ public class StaticBlock extends Block {
 
     public StaticBlock(int x, int y, Bitmap bitmap, boolean clockwise) {
         super(x, y, clockwise);
-
         setBitmap(bitmap);
 
         if (bitmap != null) {

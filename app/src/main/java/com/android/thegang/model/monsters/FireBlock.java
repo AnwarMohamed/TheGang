@@ -30,8 +30,6 @@ import com.android.thegang.model.StaticBlock;
 
 public class FireBlock extends StaticBlock {
 
-    private int destX, destY;
-
     public int getSpeed() {
         return speed;
     }
@@ -39,22 +37,49 @@ public class FireBlock extends StaticBlock {
     public void setSpeed(int speed) {
         this.speed = speed;
 
+        setXSpeed(speed);
+
+        if (type == FIRE_TYPE_DOWN) {
+            setYSpeed(-1 * speed);
+        }
     }
 
     private int speed = 1;
+    private int maxX, maxY;
+
+    private int type = FIRE_TYPE_DOWN;
+
+    public final static int FIRE_STATE_IDLE = 0;
+    public final static int FIRE_STATE_RUNNING = 1;
+
+    public final static int FIRE_TYPE_DOWN = 0;
+    public final static int FIRE_TYPE_LEFT = 1;
 
     public FireBlock(int x, int y, Bitmap bitmap) {
         super(x, y, bitmap, false);
+        setState(FIRE_STATE_RUNNING);
     }
 
-    public void setDestination(int x, int y) {
-        destX = x;
-        destY = y;
+    public void setMaxXY(int x, int y) {
+        maxX = x;
+        maxY = y;
+    }
+
+    public void setFireType(int type) {
+        this.type = type;
     }
 
     @Override
     public void doDraw(Canvas canvas) {
+        if (getState() == FIRE_STATE_RUNNING) {
+            if (getX() > 0 && getY() < maxY) {
+                stepX();
+                stepY();
 
-
+                super.doDraw(canvas);
+            } else {
+                setState(FIRE_STATE_IDLE);
+            }
+        }
     }
 }

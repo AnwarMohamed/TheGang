@@ -26,9 +26,9 @@ package com.android.thegang.model.decorators;
 import android.graphics.Canvas;
 
 import com.android.thegang.assets.Bitmaps;
-import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.StaticBlock;
 
+import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
 
 public class DecoratorBlock extends StaticBlock {
@@ -38,7 +38,7 @@ public class DecoratorBlock extends StaticBlock {
     public DecoratorBlock(int x, int y, int maxX) {
         super(x, y, null, false);
 
-        setBitmap(Bitmaps.misc[GameThread.random.nextInt(Integer.MAX_VALUE) % Bitmaps.misc.length]);
+        setBitmap(Bitmaps.misc[getRandom(Bitmaps.misc.length)]);
         setY(getY() - bitmap.getHeight());
 
         setWidth(bitmap.getWidth());
@@ -54,11 +54,14 @@ public class DecoratorBlock extends StaticBlock {
         super.doDraw(canvas);
 
         if (getX() < 0 && getWidth() + 100 < abs(getX())) {
-            setX(maxX + 100 + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
+            setX(maxX + 100 + getRandom(1000));
 
             setY(getY() + bitmap.getHeight());
-            bitmap = Bitmaps.misc[GameThread.random.nextInt(Integer.MAX_VALUE) % Bitmaps.misc.length];
+            bitmap = Bitmaps.misc[getRandom(Bitmaps.misc.length)];
             setY(getY() - bitmap.getHeight());
+
+            setWidth(bitmap.getWidth());
+            setHeight(bitmap.getHeight());
         }
     }
 }

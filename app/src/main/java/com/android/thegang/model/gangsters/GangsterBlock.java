@@ -91,12 +91,19 @@ public abstract class GangsterBlock extends SpriteBlock {
             case GANGSTER_STATE_IDLE:
                 stateIndex = (stateIndex + 1) % idleBitmaps.length;
                 canvas.drawBitmap(idleBitmaps[stateIndex], getX(), getY(), null);
+
+                setWidth(idleBitmaps[stateIndex].getWidth());
+                setHeight(idleBitmaps[stateIndex].getHeight());
+
                 break;
             case GANGSTER_STATE_JUMP:
                 stateIndex = (stateIndex + 1) % jumpBitmaps.length;
                 canvas.drawBitmap(jumpBitmaps[stateIndex], getX(), getY(), null);
                 setY(getY() + (45 * (stateIndex < jumpBitmaps.length / 2 ? -1 : 1)));
                 setX(getX() + 15);
+
+                setWidth(jumpBitmaps[stateIndex].getWidth());
+                setHeight(jumpBitmaps[stateIndex].getHeight());
 
                 if (stateIndex == 0) {
                     setState(GANGSTER_STATE_RUN);
@@ -106,10 +113,17 @@ public abstract class GangsterBlock extends SpriteBlock {
                 stateIndex = (stateIndex + 1) % runBitmaps.length;
                 canvas.drawBitmap(runBitmaps[stateIndex], getX(), getY(), null);
                 setX(getX() > originalX ? getX() - 50 : originalX);
+
+                setWidth(runBitmaps[stateIndex].getWidth());
+                setHeight(runBitmaps[stateIndex].getHeight());
+
                 break;
             case GANGSTER_STATE_ATTACK:
                 stateIndex = (stateIndex + 1) % attackBitmaps.length;
                 canvas.drawBitmap(attackBitmaps[stateIndex], getX(), getY(), null);
+
+                setWidth(attackBitmaps[stateIndex].getWidth());
+                setHeight(attackBitmaps[stateIndex].getHeight());
 
                 if (stateIndex == 0) {
                     setState(GANGSTER_STATE_RUN);
@@ -120,6 +134,9 @@ public abstract class GangsterBlock extends SpriteBlock {
                 canvas.drawBitmap(slideBitmaps[stateIndex], getX(), getY(), null);
                 setY(getY() + (20 * (stateIndex < slideBitmaps.length / 2 ? 1 : -1)));
                 setX(getX() + (15 * (stateIndex < slideBitmaps.length / 2 ? 1 : 0)));
+
+                setWidth(slideBitmaps[stateIndex].getWidth());
+                setHeight(slideBitmaps[stateIndex].getHeight());
 
                 if (stateIndex == 0) {
                     setState(GANGSTER_STATE_RUN);

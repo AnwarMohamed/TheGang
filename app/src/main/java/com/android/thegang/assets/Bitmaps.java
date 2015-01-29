@@ -154,8 +154,8 @@ public class Bitmaps {
                     bitmapWidth_1, bitmapHeight_1);
         }
 
-        eggs[0] = createScaledBitmap(1f, R.drawable.egg_0, eggs[0], context);
-        eggs[1] = createScaledBitmap(1f, R.drawable.egg_1, eggs[1], context);
+        eggs[0] = createScaledBitmap(0.1f, R.drawable.egg_0, eggs[0], context);
+        eggs[1] = createScaledBitmap(0.1f, R.drawable.egg_1, eggs[1], context);
 
         /*
         Bitmap monster = null;

@@ -26,9 +26,9 @@ package com.android.thegang.model.decorators;
 import android.graphics.Canvas;
 
 import com.android.thegang.assets.Bitmaps;
-import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.StaticBlock;
 
+import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
 
 
@@ -38,12 +38,12 @@ public class CloudBlock extends StaticBlock {
 
     public CloudBlock(int maxX, int maxY) {
         super(
-                GameThread.random.nextInt() % maxX,
-                GameThread.random.nextInt() % maxY,
-                Bitmaps.clouds[GameThread.random.nextInt() % Bitmaps.clouds.length],
+                getRandom(maxX),
+                getRandom(maxY),
+                Bitmaps.clouds[getRandom(Bitmaps.clouds.length)],
                 false);
 
-        setXSpeed(GameThread.random.nextInt() % 10 + 1);
+        setXSpeed(getRandom(10) + 1);
         this.maxX = maxX;
         this.maxY = maxY;
     }
@@ -54,10 +54,10 @@ public class CloudBlock extends StaticBlock {
         super.doDraw(canvas);
 
         if (getX() < 0 && getWidth() < abs(getX())) {
-            setX(maxX + GameThread.random.nextInt() % 500);
-            setY(GameThread.random.nextInt() % maxY);
+            setX(maxX + getRandom(500));
+            setY(getRandom(maxY));
 
-            bitmap = Bitmaps.clouds[GameThread.random.nextInt() % Bitmaps.clouds.length];
+            bitmap = Bitmaps.clouds[getRandom(Bitmaps.clouds.length)];
         }
     }
 }

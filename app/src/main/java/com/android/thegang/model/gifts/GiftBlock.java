@@ -26,9 +26,9 @@ package com.android.thegang.model.gifts;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.android.thegang.controller.GameThread;
 import com.android.thegang.model.SpriteBlock;
 
+import static com.android.thegang.controller.GameThread.getRandom;
 import static java.lang.Math.abs;
 
 public abstract class GiftBlock extends SpriteBlock {
@@ -63,12 +63,12 @@ public abstract class GiftBlock extends SpriteBlock {
         }
 
         if (getX() < 0 && getWidth() <= abs(getX())) {
-            setX(maxX + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
+            setX(maxX + getRandom(1000));
         }
     }
 
     public int catchMe() {
-        setX(maxX + GameThread.random.nextInt(Integer.MAX_VALUE) % 1000);
-        return getWidth();
+        setX(maxX + getRandom(1000));
+        return getWeight();
     }
 }
