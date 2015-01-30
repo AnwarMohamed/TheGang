@@ -127,7 +127,10 @@ public abstract class GangsterBlock extends SpriteBlock {
             case GANGSTER_STATE_RUN:
                 stateIndex = (stateIndex + 1) % runBitmaps.length;
                 canvas.drawBitmap(runBitmaps[stateIndex], getX(), getY(), null);
-                setX(getX() > originalX ? getX() - 50 : originalX);
+
+                if (returnable) {
+                    setX(getX() > originalX ? getX() - 50 : originalX);
+                }
 
                 setWidth(runBitmaps[stateIndex].getWidth());
                 setHeight(runBitmaps[stateIndex].getHeight());
@@ -171,6 +174,16 @@ public abstract class GangsterBlock extends SpriteBlock {
 
         gangsterBlock.set(getX(), getY(), getX() + getWidth(), getY() + getHeight());
     }
+
+    public boolean isReturnable() {
+        return returnable;
+    }
+
+    public void setReturnable(boolean returnable) {
+        this.returnable = returnable;
+    }
+
+    private boolean returnable = true;
 
     private Rect gangsterBlock = new Rect();
     private Rect intersectBlock = new Rect();

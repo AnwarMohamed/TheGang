@@ -60,6 +60,7 @@ public class MonsterFactory {
                         maxY - 50 - Bitmaps.gangster1_idle[0].getHeight(),
                         Bitmaps.gangster1_idle, false);
                 monsterBlock.setFireCount(GameThread.getRandom(10));
+                monsterBlock.setType(MONSTER_TYPE_GIRL);
                 break;
         }
 

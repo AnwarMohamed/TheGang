@@ -30,6 +30,7 @@ import android.graphics.BitmapFactory;
 import com.android.thegang.R;
 
 public class Bitmaps {
+
     public static Bitmap[] gangster0_idle = new Bitmap[10];
     public static Bitmap[] gangster0_run = new Bitmap[10];
     public static Bitmap[] gangster0_jump = new Bitmap[10];

@@ -24,6 +24,9 @@
 package com.android.thegang;
 
 import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -37,6 +40,23 @@ import com.android.thegang.view.GamePanel;
 
 public class GameActivity extends Activity implements GestureDetector.OnGestureListener {
 
+    public SoundPool getSounds() {
+        return sounds;
+    }
+
+    private SoundPool sounds;
+    private MediaPlayer player;
+
+    public int getJumpID() {
+        return jumpID;
+    }
+
+    public int getHitID() {
+        return hitID;
+    }
+
+    private int jumpID, hitID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +67,14 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Bitmaps.loadBitmapStore(this);
+
+        sounds = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        player = MediaPlayer.create(this, R.raw.background);
+        player.setLooping(true);
+        player.start();
+
+        jumpID = sounds.load(this, R.raw.jump, 1);
+        hitID = sounds.load(this, R.raw.hit, 1);
 
         gamePanel = new GamePanel(this);
         setContentView(gamePanel);
@@ -66,12 +94,18 @@ public class GameActivity extends Activity implements GestureDetector.OnGestureL
     protected void onDestroy() {
         Log.d("GameActivity", "Destroying...");
         super.onDestroy();
+        player.pause();
+        player.stop();
+        player.release();
     }
 
     @Override
     protected void onStop() {
         Log.d("GameActivity", "Stopping...");
         super.onStop();
+        player.pause();
+        player.stop();
+        player.release();
     }
 
     @Override

@@ -207,7 +207,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private void gameOver(Canvas canvas) {
+    private void gameOver(Canvas canvas, boolean win) {
 
         gamePaint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
         gamePaint.setTextSize(150);
@@ -215,17 +215,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         int xPos = screenXCenter - 400;
         int yPos = (int) (screenYCenter - ((gamePaint.descent() + gamePaint.ascent()) / 2));
 
-        canvas.drawText("GAME OVER", xPos, yPos, gamePaint);
+        canvas.drawText(win ? "YOU WIN" : "GAME OVER", xPos, yPos, gamePaint);
     }
 
     private Paint bgPaint = new Paint();
     private Paint gamePaint = new Paint();
+
+    private boolean win = false;
 
     private int intersectDelay = 0;
 
     public void doDraw(Canvas canvas) {
         if (canvas != null) {
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), bgPaint);
+
 
             if (viewBlocks.size() < 16) {
                 addCloudBlocks();
@@ -252,7 +255,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                             if (monsterBlock.getType() == MonsterFactory.MONSTER_TYPE_GIRL) {
                                 removeQueue.add(block);
 
-                                monsterMode = false;
+                                monsterMode = true;
                                 gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_RUN);
 
                                 for (int i = 0; i < viewBlocks.size(); i++) {
@@ -264,6 +267,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
                                 lifeScore = 5;
 
+                                win = true;
+                                pauseGround = true;
+
+                                gameOver(canvas, true);
                             } else {
                                 monsterBlock.getCaught();
                             }
@@ -327,19 +334,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 pauseGround = true;
             }
 
-            if (gameOver) {
-                gameOver(canvas);
+            if (win) {
+                gameOver(canvas, true);
+                return;
+            } else if (gameOver) {
+                gameOver(canvas, false);
             } else if (monsterMode) {
                 gangsterBlock.doDraw(canvas);
-                gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_IDLE);
+                gangsterBlock.setReturnable(false);
+                //gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_IDLE);
             } else {
                 gangsterBlock.doDraw(canvas);
+                gangsterBlock.setReturnable(true);
                 pauseGround = gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_ATTACK ||
                         gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_DYING;
             }
 
-            if (!monsterMode && pauseGround) {
-                if (coinsScore == 15 &&
+            if (!monsterMode && !pauseGround) {
+                if (coinsScore > 25 &&
                         gangsterBlock.getState() == GangsterBlock.GANGSTER_STATE_RUN) {
 
                     MonsterBlock girlMonsterBlock = MonsterFactory.makeMonster(
@@ -376,6 +388,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     case GangsterBlock.GANGSTER_STATE_RUN:
                     case GangsterBlock.GANGSTER_STATE_IDLE:
                         gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_JUMP);
+                        gameActivity.getSounds().play(gameActivity.getJumpID(), 1, 1, 1, 0, 1);
                         break;
                 }
             }
@@ -392,7 +405,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void onSingleTapUp(MotionEvent motionEvent) {
-        if (gameOver) {
+        if (gameOver || win) {
             gameActivity.finish();
         } else {
             if (gangsterBlock != null) {
@@ -400,6 +413,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     case GangsterBlock.GANGSTER_STATE_RUN:
                     case GangsterBlock.GANGSTER_STATE_IDLE:
                         gangsterBlock.setState(GangsterBlock.GANGSTER_STATE_ATTACK);
+                        gameActivity.getSounds().play(gameActivity.getHitID(), 1, 1, 1, 0, 1);
                         break;
                 }
             }
